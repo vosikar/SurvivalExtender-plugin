@@ -1,0 +1,11 @@
+name: SurvivalExtender
+version: '${project.version}'
+main: me.tox1que.survivalextender.SurvivalExtender
+api-version: '1.17'
+commands:
+  recipe:
+    description: Otevře recept itemu
+    aliases:
+      - recept
+depend:
+  - CMI
