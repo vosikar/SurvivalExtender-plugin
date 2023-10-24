@@ -64,7 +64,9 @@ public class DialogNPC{
                     continue;
                 if(inInventory.getType() == is.getType() && inInventory.getItemMeta().getDisplayName().equals(is.getItemMeta().getDisplayName())
                         && inInventory.getAmount() >= is.getAmount()){
-                    toRemove.add(inInventory);
+                    ItemStack itemToRemove = inInventory.clone();
+                    itemToRemove.setAmount(is.getAmount());
+                    toRemove.add(itemToRemove);
                     continue itemsLoop;
                 }
             }

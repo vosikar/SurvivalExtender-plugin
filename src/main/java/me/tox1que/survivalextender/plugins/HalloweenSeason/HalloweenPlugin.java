@@ -34,6 +34,7 @@ public class HalloweenPlugin extends BasePlugin{
 
     @Override
     public void load(){
+        this.npcs = new ArrayList<>();
         List<DialogNPC> npcs = new ArrayList<>();
 
         ItemStack kopriva = getKitItem("halloweenevent_kopriva");
@@ -41,9 +42,9 @@ public class HalloweenPlugin extends BasePlugin{
         npcs.add(new DialogNPC("Ježibaba", getDialog("jezibaba"), QuestType.JEZIBABA,
                 getKitItem("halloweenevent_hnata"), kopriva, getKitItem("halloweenevent_turin")));
 
-        ItemStack vdova = Utils.createItem(Material.ENDERMAN_SPAWN_EGG, ChatColor.of("#2E2E33")+"§lČerná vdova", null);
+        ItemStack vdova = Utils.createItem(Material.CAVE_SPIDER_SPAWN_EGG, ChatColor.of("#2E2E33")+"§lČerná vdova", null);
         vdova.setAmount(4);
-        ItemStack vrk = Utils.createItem(Material.MULE_SPAWN_EGG, ChatColor.of("#331A00")+"§lVrk", null);
+        ItemStack vrk = Utils.createItem(Material.POLAR_BEAR_SPAWN_EGG, ChatColor.of("#331A00")+"§lVrk", null);
         vrk.setAmount(3);
         ItemStack netopyr = Utils.createItem(Material.BAT_SPAWN_EGG, ChatColor.of("#404040")+"§lNetopýr", null);
         netopyr.setAmount(4);
@@ -73,6 +74,7 @@ public class HalloweenPlugin extends BasePlugin{
             main.getServer().getPluginManager().registerEvents(new JoinListener(), main);
             main.getServer().getPluginManager().registerEvents(new EntitySpawn(), main);
             main.getServer().getPluginManager().registerEvents(new EggCatcher(), main);
+            main.getCommand("bflm").setExecutor(new bflm());
         }
     }
 
