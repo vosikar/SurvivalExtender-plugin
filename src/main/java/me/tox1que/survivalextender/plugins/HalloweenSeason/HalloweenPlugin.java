@@ -20,20 +20,22 @@ import java.util.*;
 
 public class HalloweenPlugin extends BasePlugin{
 
-    private Map<String, PlayerProfile> playerProfiles;
+    private final List<String> interacted;
+    private final Map<String, PlayerProfile> playerProfiles;
     private List<DialogNPC> npcs;
     private boolean itemsLoaded;
 
     public HalloweenPlugin(){
         super();
+        this.interacted = new ArrayList<>();
         this.playerProfiles = new HashMap<>();
-        itemsLoaded = true;
+        this.itemsLoaded = true;
     }
 
     @Override
     public void load(){
-
         List<DialogNPC> npcs = new ArrayList<>();
+
         ItemStack kopriva = getKitItem("halloweenevent_kopriva");
         kopriva.setAmount(2);
         npcs.add(new DialogNPC("Ježibaba", getDialog("jezibaba"), QuestType.JEZIBABA,
@@ -72,7 +74,14 @@ public class HalloweenPlugin extends BasePlugin{
             main.getServer().getPluginManager().registerEvents(new EntitySpawn(), main);
             main.getServer().getPluginManager().registerEvents(new EggCatcher(), main);
         }
+    }
 
+    public boolean addInteracted(Player player){
+        if(!interacted.contains(player.getName())){
+            interacted.add(player.getName());
+            return true;
+        }
+        return false;
     }
 
     public void addProfile(Player player, PlayerProfile profile){
@@ -104,5 +113,9 @@ public class HalloweenPlugin extends BasePlugin{
 
     public PlayerProfile getProfile(Player player){
         return playerProfiles.get(player.getName());
+    }
+
+    public void removeInteracted(Player player){
+        interacted.remove(player.getName());
     }
 }

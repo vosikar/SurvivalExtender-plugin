@@ -11,7 +11,7 @@ import java.sql.SQLException;
 
 public class PlayerSQL{
 
-    public static void addPermission(Player player, String permission, String server){
+    public static void addPermission(String player, String permission, String server){
         Bukkit.getScheduler().runTaskAsynchronously(SurvivalExtender.getInstance(), () -> {
             PreparedStatement ps = null;
             Connection con = null;
@@ -23,7 +23,7 @@ public class PlayerSQL{
                         "INSERT INTO `minehub_global`.`user_permissions`(name, permission, value, server) VALUES(?, ?, 1, ?)",
                         ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE
                 );
-                ps.setString(1, player.getName());
+                ps.setString(1, player);
                 ps.setString(2, permission);
                 ps.setString(3, server);
                 ps.execute();

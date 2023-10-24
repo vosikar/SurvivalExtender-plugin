@@ -48,6 +48,12 @@ public class DialogNPC{
         }
 
         int progress = profile.getProgress(questType);
+
+        if(SurvivalExtender.getInstance().getHalloweenPlugin().addInteracted(player)){
+            sendMessage(player, dialogs.get(progress));
+            return;
+        }
+
         PlayerInventory inventory = player.getInventory();
         List<ItemStack> toRemove = new ArrayList<>();
 
@@ -75,14 +81,16 @@ public class DialogNPC{
             }
 
             profile.completeQuest(questType);
+            SurvivalExtender.getInstance().getHalloweenPlugin().removeInteracted(player);
             if(profile.getProgress(questType) == questType.getLimit()){
                 if(name.equals("Lupič")){
                     sendMessage(player, "Jen pro pořádek, neřekl jsem nic o tom, že ti něco dám. :)");
-                    PlayerSQL.addPermission(player, "core.tag.halloween2023", "all");
+                    PlayerSQL.addPermission(player.getName(), "core.tag.halloween2023", "all");
                 }else{
                     sendMessage(player, "Děkuji ti za pomoc! Zde je tvá odměna.");
                 }
             }else{
+                SurvivalExtender.getInstance().getHalloweenPlugin().removeInteracted(player);
                 sendMessage(player, dialogs.get(progress+1));
             }
         }else{
