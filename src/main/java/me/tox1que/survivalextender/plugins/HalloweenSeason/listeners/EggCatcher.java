@@ -24,6 +24,7 @@ public class EggCatcher implements Listener{
         items.put(ChatColor.of("#331A00")+"§lVrk", "halloweenevent_vrk");
         items.put(ChatColor.of("#404040")+"§lNetopýr", "halloweenevent_netopyr");
         items.put(ChatColor.of("#808080")+"§lKrysa", "halloweenevent_krysa");
+        items.put(ChatColor.of("#206020")+"§lNemrtvý alchymista", "halloweenevent_alchymista");
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
