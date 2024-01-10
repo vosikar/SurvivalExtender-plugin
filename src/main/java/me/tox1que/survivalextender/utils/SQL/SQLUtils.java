@@ -1,10 +1,12 @@
 package me.tox1que.survivalextender.utils.SQL;
 
 import me.tox1que.survivalextender.SurvivalExtender;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Map;
 
 public class SQLUtils{
@@ -39,12 +41,12 @@ public class SQLUtils{
         try{
             StringBuilder condition = new StringBuilder();
             for(String s : keys){
-                condition.append(condition.length() > 0 ? "AND " : "")
+                condition.append(!condition.isEmpty() ? "AND " : "")
                         .append(s).append("=? ");
             }
             connection = getNewConnection();
             String query = String.format(
-                    "DELETE FROM %s %s", table, (condition.length() > 0 ? "WHERE "+condition : "")
+                    "DELETE FROM %s %s", table, (!condition.isEmpty() ? "WHERE "+condition : "")
             );
             ps = connection.prepareStatement(query);
             for(int i = 0; i < values.length; i++){
@@ -62,16 +64,24 @@ public class SQLUtils{
 //    }
 
     public static void insert(String table, Map<String, ?> data){
+        insert(table, data, true);
+    }
+
+    public static void insert(String table, Map<String, ?> data, boolean async){
+        if(async){
+            Bukkit.getScheduler().runTaskAsynchronously(SurvivalExtender.getInstance(), () -> dbInsert(table, data));
+        }else{
+            dbInsert(table, data);
+        }
+    }
+
+    private static void dbInsert(String table, Map<String, ?> data){
         PreparedStatement ps;
         Connection connection;
         try{
             connection = getNewConnection();
             String keys = String.join(",", data.keySet());
-            StringBuilder values = new StringBuilder();
-            int repeat = data.values().size();
-            for(int i = 0; i < repeat; i++){
-                values.append(i < repeat-1 ? "?, " : "?");
-            }
+            String values = getValuesPlaceholder(data.values().size());
             String query = String.format(
                     "INSERT INTO %s (%s) VALUES (%s)", table, keys, values
             );
@@ -80,6 +90,41 @@ public class SQLUtils{
             for(Object o:data.values()){
                 ps.setObject(i, o.toString());
                 i++;
+            }
+            ps.execute();
+            ps.close();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public static void insertOrUpdate(String table, Map<String, ?> data){
+        insertOrUpdate(table, data, true);
+    }
+
+    public static void insertOrUpdate(String table, Map<String, ?> data, boolean async){
+        if(async){
+            Bukkit.getScheduler().runTaskAsynchronously(SurvivalExtender.getInstance(), () -> dbInsertOrUpdate(table, data));
+        }else{
+            dbInsertOrUpdate(table, data);
+        }
+    }
+
+    private static void dbInsertOrUpdate(String table, Map<String, ?> data){
+        PreparedStatement ps;
+        Connection connection;
+        try{
+            connection = getNewConnection();
+            String queryValues = getValuesPlaceholder(data.values().size());
+            String update = getUpdateValues(data);
+            String query = String.format("INSERT INTO %s (%s) VALUES (%s) ON DUPLICATE KEY UPDATE %s",
+                    table, String.join(",", data.keySet()), queryValues, update);
+            ps = connection.prepareStatement(query);
+
+            Object[] dataValues = data.values().toArray(new Object[0]);
+            for(int i = 0; i < dataValues.length; i++){
+                ps.setObject(i+1, dataValues[i]);
+                ps.setObject(i+dataValues.length+1, dataValues[i]);
             }
             ps.execute();
             ps.close();
@@ -97,57 +142,56 @@ public class SQLUtils{
     }
 
     public static void select(String table, String[] columns, String[] keys, String[] values, int limit, String order, SQLRunnable runnable){
-        PreparedStatement ps;
-        Connection connection;
-        ResultSet result;
-        try{
-            connection = getNewConnection();
-            StringBuilder condition = new StringBuilder("WHERE ");
-            int len = values.length;
-            for(int i = 0; i < len; i++){
-                condition.append(keys[i]).append(i + 1 == len ? "=?" : "=? AND ");
+        Bukkit.getScheduler().runTaskAsynchronously(SurvivalExtender.getInstance(), () -> {
+            PreparedStatement ps;
+            Connection connection;
+            ResultSet result;
+            try{
+                connection = getNewConnection();
+                StringBuilder condition = new StringBuilder("WHERE ");
+                int len = values.length;
+                for(int i = 0; i < len; i++){
+                    condition.append(keys[i]).append(i + 1 == len ? "=?" : "=? AND ");
+                }
+                String query = "SELECT %s FROM %s %s".formatted(String.join(",", columns), table, !condition.toString().equals("WHERE ") ? condition : "");
+                if(!order.isEmpty())
+                    query += " ORDER BY "+order;
+                if(limit > 0)
+                    query += " LIMIT " + limit;
+                ps = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                for(int i = 0; i < len; i++){
+                    ps.setString(i + 1, values[i]);
+                }
+                ps.execute();
+                result = ps.getResultSet();
+                runnable.run(result);
+                ps.close();
+            }catch(SQLException e){
+                e.printStackTrace();
             }
-            String query = "SELECT " + String.join(",", columns) + " FROM " + table + " " + (!condition.toString().equals("WHERE ") ? condition : "");
-            if(!order.equals(""))
-                query += "ORDER BY "+order;
-            if(limit > 0)
-                query += " LIMIT " + limit;
-            ps = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            for(int i = 0; i < len; i++){
-                ps.setString(i + 1, values[i]);
-            }
-            ps.execute();
-            result = ps.getResultSet();
-            runnable.run(result);
-            ps.close();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
+        });
     }
 
     public static void update(String table, String[] keys, Object[] values, String condition){
-        PreparedStatement ps;
-        Connection connection;
-        try{
-            connection = getNewConnection();
-            StringBuilder valuesBuilder = new StringBuilder();
-            int repeat = keys.length;
-            for(int i = 0; i < repeat; i++){
-                String key = keys[i];
-                valuesBuilder.append(i < repeat-1 ? key+"=?, " : key+"=?");
+        Bukkit.getScheduler().runTaskAsynchronously(SurvivalExtender.getInstance(), () -> {
+            PreparedStatement ps;
+            Connection connection;
+            try{
+                connection = getNewConnection();
+                String valuesBuilder = getUpdateValues(keys, values);
+                String query = String.format(
+                        "UPDATE %s SET %s %s", table, valuesBuilder, (!condition.isEmpty() ? "WHERE "+condition : "")
+                );
+                ps = connection.prepareStatement(query);
+                for(int i = 0; i < values.length; i++){
+                    ps.setObject(i+1, values[i]);
+                }
+                ps.execute();
+                ps.close();
+            }catch(SQLException e){
+                e.printStackTrace();
             }
-            String query = String.format(
-                    "UPDATE %s SET %s %s", table, valuesBuilder, (!condition.equals("") ? "WHERE "+condition : "")
-            );
-            ps = connection.prepareStatement(query);
-            for(int i = 0; i < repeat; i++){
-                ps.setObject(i+1, values[i]);
-            }
-            ps.execute();
-            ps.close();
-        }catch(SQLException e){
-            e.printStackTrace();
-        }
+        });
     }
 
     public static void query(String query, SQLRunnable runnable, String... parameters){
@@ -171,5 +215,32 @@ public class SQLUtils{
         }catch(SQLException e){
             e.printStackTrace();
         }
+    }
+
+    private static String getUpdateValues(Map<String, ?> data){
+        StringBuilder valuesBuilder = new StringBuilder();
+        String[] keys = data.keySet().toArray(new String[0]);
+        int repeat = keys.length;
+        for(int i = 0; i < repeat; i++){
+            String key = keys[i];
+            valuesBuilder.append(i < repeat-1 ? key+"=?, " : key+"=?");
+        }
+        return valuesBuilder.toString();
+    }
+
+    private static String getUpdateValues(String[] keys, Object[] values){
+        Map<String, Object> data = new HashMap<>();
+        for(int i = 0; i < keys.length; i++){
+            data.put(keys[i], values[i]);
+        }
+        return getUpdateValues(data);
+    }
+
+    private static String getValuesPlaceholder(int size){
+        StringBuilder values = new StringBuilder();
+        for(int i = 0; i < size; i++){
+            values.append(i < size-1 ? "?, " : "?");
+        }
+        return values.toString();
     }
 }
