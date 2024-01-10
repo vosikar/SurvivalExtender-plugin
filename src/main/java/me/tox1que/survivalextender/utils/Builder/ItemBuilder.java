@@ -221,5 +221,13 @@ public class ItemBuilder{
         inv.setItem(position, getItemStack());
         return this;
     }
+
+    public ItemBuilder fakeEnchant(){
+        ItemMeta meta = getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addEnchant(Enchantment.SOUL_SPEED, 1, true);
+        getItemStack().setItemMeta(meta);
+        return this;
+    }
 }
 

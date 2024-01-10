@@ -1,8 +1,6 @@
-package me.tox1que.survivalextender.plugins.HalloweenSeason;
+package me.tox1que.survivalextender.plugins.ThreeWiseMen.utils;
 
 import me.tox1que.survivalextender.SurvivalExtender;
-import me.tox1que.survivalextender.plugins.HalloweenSeason.utils.PlayerProfile;
-import me.tox1que.survivalextender.plugins.HalloweenSeason.utils.QuestType;
 import me.tox1que.survivalextender.utils.SQL.SQLUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -14,7 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HalloweenSQL{
+public class TWMSQL{
 
     public static void completeQuest(Player player, QuestType type){
         Bukkit.getScheduler().runTaskAsynchronously(SurvivalExtender.getInstance(), () -> {
@@ -26,7 +24,7 @@ public class HalloweenSQL{
                 con = SQLUtils.getNewConnection();
                 String value = type.toString().toLowerCase();
                 ps = con.prepareStatement(
-                        String.format("INSERT INTO halloween_quests(player, %s) VALUES(?, 1) ON DUPLICATE KEY UPDATE %s=%s + 1", value, value, value),
+                        String.format("INSERT INTO quests_tri_kralove (player, %s) VALUES (?, 1) ON DUPLICATE KEY UPDATE %s=%s + 1", value, value, value),
                         ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE
                 );
                 ps.setString(1, player.getName());
@@ -52,7 +50,7 @@ public class HalloweenSQL{
 
             try{
                 con = SQLUtils.getNewConnection();
-                ps = con.prepareStatement("SELECT * FROM halloween_quests WHERE player=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = con.prepareStatement("SELECT * FROM quests_tri_kralove WHERE player=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, player.getName());
                 ps.execute();
                 result = ps.getResultSet();
@@ -66,7 +64,7 @@ public class HalloweenSQL{
                         }
                     }
                 }
-                SurvivalExtender.getInstance().getHalloweenPlugin().addProfile(player, new PlayerProfile(player, completed));
+                SurvivalExtender.getInstance().getThreeWiseMenPlugin().addProfile(player, new PlayerProfile(player, completed));
                 ps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();

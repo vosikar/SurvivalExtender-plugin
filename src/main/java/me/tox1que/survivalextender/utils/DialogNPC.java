@@ -1,7 +1,8 @@
-package me.tox1que.survivalextender.plugins.HalloweenSeason.utils;
+package me.tox1que.survivalextender.utils;
 
 import me.tox1que.survivalextender.SurvivalExtender;
-import me.tox1que.survivalextender.utils.SQL.PlayerSQL;
+import me.tox1que.survivalextender.plugins.ThreeWiseMen.utils.PlayerProfile;
+import me.tox1que.survivalextender.plugins.ThreeWiseMen.utils.QuestType;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -9,7 +10,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -17,31 +17,35 @@ public class DialogNPC{
 
     private final String name;
     private final List<String> dialogs;
+    private final String finalDialog;
     private final QuestType questType;
     private final List<ItemStack> rewards;
     private final List<ItemStack[]> items;
-    private final boolean multi;
 
-    public DialogNPC(String name, List<String> dialog, QuestType questType, List<ItemStack> rewards, List<ItemStack[]> items, boolean multi){
+    public DialogNPC(String name, List<String> dialog, String finalDialog, QuestType questType, List<ItemStack> rewards, List<ItemStack[]> items){
         this.name = name;
         this.dialogs = dialog;
+        this.finalDialog = finalDialog;
         this.questType = questType;
         this.rewards = rewards;
         this.items = items;
-        this.multi = multi;
     }
 
-    public DialogNPC(String name, String dialog, QuestType questType, ItemStack reward, ItemStack... items){
-        this(name, Collections.singletonList(dialog), questType, Collections.singletonList(reward),
-                Collections.singletonList(items), false);
+    public DialogNPC(String name, String dialog, String finalDialog, QuestType questType, ItemStack reward, ItemStack... items){
+        this(name, Collections.singletonList(dialog), finalDialog, questType, Collections.singletonList(reward),
+                Collections.singletonList(items));
     }
 
     public String getName(){
         return name;
     }
 
+    public QuestType getQuestType(){
+        return questType;
+    }
+
     public void interact(Player player){
-        PlayerProfile profile = SurvivalExtender.getInstance().getHalloweenPlugin().getProfile(player);
+        PlayerProfile profile = SurvivalExtender.getInstance().getThreeWiseMenPlugin().getProfile(player);
         if(profile.completedQuest(questType)){
             sendMessage(player, "Můj úkol máš již dokončený.");
             return;
@@ -49,7 +53,7 @@ public class DialogNPC{
 
         int progress = profile.getProgress(questType);
 
-        if(SurvivalExtender.getInstance().getHalloweenPlugin().addInteracted(player)){
+        if(SurvivalExtender.getInstance().getThreeWiseMenPlugin().addInteracted(player)){
             sendMessage(player, dialogs.get(progress));
             return;
         }
@@ -83,16 +87,11 @@ public class DialogNPC{
             }
 
             profile.completeQuest(questType);
-            SurvivalExtender.getInstance().getHalloweenPlugin().removeInteracted(player);
+            SurvivalExtender.getInstance().getThreeWiseMenPlugin().removeInteracted(player);
             if(profile.getProgress(questType) == questType.getLimit()){
-                if(name.equals("Lupič")){
-                    sendMessage(player, "Jen pro pořádek, neřekl jsem nic o tom, že ti něco dám. :)");
-                    PlayerSQL.addPermission(player.getName(), "core.tag.halloween2023", "all");
-                }else{
-                    sendMessage(player, "Děkuji ti za pomoc! Zde je tvá odměna.");
-                }
+                sendMessage(player, finalDialog);
             }else{
-                SurvivalExtender.getInstance().getHalloweenPlugin().removeInteracted(player);
+                SurvivalExtender.getInstance().getThreeWiseMenPlugin().removeInteracted(player);
                 sendMessage(player, dialogs.get(progress+1));
             }
         }else{
@@ -100,7 +99,7 @@ public class DialogNPC{
         }
     }
 
-    private void sendMessage(Player player, String message){
+    public void sendMessage(Player player, String message){
         player.sendMessage(String.format(ChatColor.of("#732626")+"%s §7» "+ChatColor.of("#993333")+"%s", name, message));
     }
 }

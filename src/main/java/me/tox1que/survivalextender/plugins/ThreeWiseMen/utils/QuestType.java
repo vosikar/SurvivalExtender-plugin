@@ -1,15 +1,19 @@
-package me.tox1que.survivalextender.plugins.HalloweenSeason.utils;
+package me.tox1que.survivalextender.plugins.ThreeWiseMen.utils;
 
 public enum QuestType{
 
-
-    JEZIBABA(1),
-    PREKUPNIK(2),
-    PRUZKUMNIK(1),
-    LUPIC(3)
+    MELICHAR,
+    KASPAR,
+    BALTAZAR,
+    SKRITEK,
+    PLETARKA,
     ;
 
     private final int limit;
+
+    QuestType(){
+        this(1);
+    }
 
     QuestType(int limit){
         this.limit = limit;

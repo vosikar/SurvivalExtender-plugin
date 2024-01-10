@@ -1,6 +1,5 @@
-package me.tox1que.survivalextender.plugins.HalloweenSeason.utils;
+package me.tox1que.survivalextender.plugins.ThreeWiseMen.utils;
 
-import me.tox1que.survivalextender.plugins.HalloweenSeason.HalloweenSQL;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;
@@ -18,7 +17,7 @@ public class PlayerProfile{
 
     public void completeQuest(QuestType questType){
         completed.add(questType);
-        HalloweenSQL.completeQuest(player, questType);
+        TWMSQL.completeQuest(player, questType);
     }
 
     public boolean completedQuest(QuestType questType){

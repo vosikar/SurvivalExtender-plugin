@@ -16,6 +16,7 @@ public final class SurvivalExtender extends JavaPlugin{
     private static SurvivalExtender main;
 
     private HalloweenPlugin halloweenPlugin;
+    private ThreeWiseMenPlugin threeWiseMenPlugin;
 
     private String prefix;
     private ChatColor primaryColor;
@@ -76,5 +77,12 @@ public final class SurvivalExtender extends JavaPlugin{
 
     public ChatColor getSecondaryColor(){
         return secondaryColor;
+    }
+
+    /*
+        Plugin getters
+     */
+    public ThreeWiseMenPlugin getThreeWiseMenPlugin(){
+        return threeWiseMenPlugin;
     }
 }
