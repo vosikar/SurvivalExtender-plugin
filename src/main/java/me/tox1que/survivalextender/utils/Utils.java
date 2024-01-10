@@ -1,6 +1,9 @@
 package me.tox1que.survivalextender.utils;
 
+import com.Zrips.CMI.CMI;
+import com.Zrips.CMI.Modules.Kits.Kit;
 import me.tox1que.survivalextender.SurvivalExtender;
+import me.tox1que.survivalextender.utils.enums.ServerType;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -10,20 +13,23 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class Utils{
 
     private static final SurvivalExtender main = SurvivalExtender.getInstance();
     private static final String prefix = main.getPrefix();
-    private static final ChatColor primaryColor = main.getPrimaryColor().asBungee();
-    private static final ChatColor secondaryColor = main.getSecondaryColor().asBungee();
+    private static final ChatColor primaryColor = main.getPrimaryColor();
+    private static final ChatColor secondaryColor = main.getSecondaryColor();
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd. MM. yyyy HH:mm:ss");
 
@@ -58,6 +64,66 @@ public class Utils{
         return item;
     }
 
+    public static void borderInventory(Inventory inventory, ItemStack fill){
+        for(int i : getBorders(inventory.getSize())){
+            inventory.setItem(i, fill);
+        }
+    }
+
+    private static int[] getBorders(int size){
+        int width = 9;
+        int height = size / width;
+        List<Integer> indexesList = new ArrayList<>();
+
+        for(int i = 0; i < size; i++){
+            int row = i / width;
+            int col = i % width;
+
+            if(row == 0 || row == height - 1 || col == 0 || col == width - 1){
+                indexesList.add(i);
+            }
+        }
+
+        // Convert List<Integer> to int[]
+        int[] indexes = new int[indexesList.size()];
+        for(int i = 0; i < indexesList.size(); i++){
+            indexes[i] = indexesList.get(i);
+        }
+
+        return indexes;
+    }
+
+    public static double getPercentage(int x, int y){
+        if(y == 0)
+            return x > 0 ? 100.0 : (x < 0 ? -100.0 : 0.0);
+        return Double.parseDouble(String.format("%.2f", (double) x / (x + y) * 100));
+    }
+
+    public static String formatNumber(String number){
+        try{
+            return formatNumber(Integer.parseInt(number));
+        }catch(Exception e){
+            e.printStackTrace();
+            return number;
+        }
+    }
+
+    public static String formatNumber(double number){
+        String result = formatNumber((int) number);
+        result += "." + String.valueOf(number).split("\\.")[1];
+        return result;
+    }
+
+    public static String formatNumber(int number){
+        if(number < 0){
+            return "-" + formatNumber(-number);
+        }else if(number > 999){
+            return formatNumber(number / 1000) +
+                    String.format(" %03d", number % 1000);
+        }
+        return String.format("%d", number);
+    }
+
     public static String getFormattedTime(int time){
         int minutes = (int) Math.floor(time / 60.0);
         int seconds = time % 60;
@@ -66,6 +132,15 @@ public class Utils{
 
     public static String getFormattedTime(Date date){
         return dateFormat.format(date);
+    }
+
+    public static ItemStack getKitItem(String name){
+        Kit kit = CMI.getInstance().getKitsManager().getKit(name, true);
+        if(kit == null){
+            main.getLogger().severe("Kit "+name+" is null! !");
+            return null;
+        }
+        return kit.getFirstNotNullItem();
     }
 
     public static String getPluginMessage(String msg){
@@ -83,13 +158,13 @@ public class Utils{
                 .replace("[sc]", secondaryColor + "");
     }
 
-    public static String getServerName(){
+    public static ServerType getServerType(){
         int port = SurvivalExtender.getInstance().getServer().getPort();
         return switch(port){
-            case 30029 -> "LightSurvival";
-            case 30003 -> "OldSurvival";
-            case 30001 -> "OneBlock";
-            default -> "unknown";
+            case 30029 -> ServerType.SURVIVAL_REWORK;
+            case 30003,30015 -> ServerType.SURVIVAL;
+            case 30001 -> ServerType.ONEBLOCK;
+            default -> null;
         };
     }
 
@@ -135,5 +210,14 @@ public class Utils{
 
     public static void performConsoleCommand(String command){
         Bukkit.dispatchCommand(SurvivalExtender.getInstance().getServer().getConsoleSender(), command);
+    }
+
+    /**
+     * Generates random number, 0 => result < bound
+     * @param bound - result will be lower than this
+     * @return new Random().nextInt(bound);
+     */
+    public static int randomNumber(int bound){
+        return new Random().nextInt(bound);
     }
 }
