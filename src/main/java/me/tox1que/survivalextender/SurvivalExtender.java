@@ -52,6 +52,10 @@ public final class SurvivalExtender extends JavaPlugin{
             specialItemsChecker();
         }
 
+        this.getServer().getPluginManager().registerEvents(new EasterHandlers(), this);
+        this.getServer().getPluginManager().registerEvents(new EnchantHandles(), this);
+        this.getServer().getPluginManager().registerEvents(new SmithingTableHandlers(), this);
+
         loadManagers();
     }
 
