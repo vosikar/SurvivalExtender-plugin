@@ -7,7 +7,8 @@ commands:
     description: Otevře recept itemu
     aliases:
       - recept
-  bflm:
-    description: bflm
+  coinflip:
+    description: Otevře coinflip
 depend:
   - CMI
+  - Vault

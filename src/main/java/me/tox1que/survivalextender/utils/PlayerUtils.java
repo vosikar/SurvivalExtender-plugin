@@ -1,10 +1,8 @@
 package me.tox1que.survivalextender.utils;
 
-import me.tox1que.survivalextender.SurvivalExtender;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 

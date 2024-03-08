@@ -1,5 +1,6 @@
 package me.tox1que.survivalextender.plugins.RecipePlugin.commands;
 
+import me.tox1que.survivalextender.plugins.RecipePlugin.RecipePlugin;
 import me.tox1que.survivalextender.utils.Logger;
 import me.tox1que.survivalextender.utils.Utils;
 import me.tox1que.survivalextender.utils.abstracts.BaseCommand;
@@ -12,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class RecipeCommand extends BaseCommand{
@@ -21,24 +21,23 @@ public class RecipeCommand extends BaseCommand{
     private final int furnaceIndex;
     private final int recipeResultIndex;
 
-    private final List<String> firstCompletions;
-
-    public RecipeCommand(){
-        super("recipe", "<item>");
+    public RecipeCommand(RecipePlugin plugin){
+        super("recipe", plugin, "<item>");
 
         this.fill = Utils.createItem(Material.GRAY_STAINED_GLASS_PANE, " ", null);
         this.furnaceIndex = 21;
         this.recipeResultIndex = 24;
 
-        this.firstCompletions = Stream.of(Material.values())
+        this.completions.add(Stream.of(Material.values())
                 .map(Material::name)
-                .collect(Collectors.toList());
+                .toArray(String[]::new));
     }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-        if(!(sender instanceof Player player))
+        if(!(sender instanceof Player player)){
             return false;
+        }
 
         if(args.length < 1){
             sendUsage(player);
@@ -75,22 +74,6 @@ public class RecipeCommand extends BaseCommand{
         }
 
         return false;
-    }
-
-    @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args){
-        List<String> result = new ArrayList<>();
-
-        if(args.length == 1){
-            for(String s:firstCompletions){
-                if(s.toLowerCase().startsWith(args[0].toLowerCase())){
-                    result.add(s);
-                }
-            }
-            return result;
-        }
-
-        return null;
     }
 
     private Inventory createRecipeInventory(Recipe recipe, int page, int max){

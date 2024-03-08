@@ -1,6 +1,9 @@
 package me.tox1que.survivalextender;
 
-import me.tox1que.survivalextender.plugins.HalloweenSeason.HalloweenPlugin;
+import me.tox1que.survivalextender.listeners.EasterHandlers;
+import me.tox1que.survivalextender.listeners.EnchantHandles;
+import me.tox1que.survivalextender.listeners.SmithingTableHandlers;
+import me.tox1que.survivalextender.plugins.CoinflipPlugin.CoinflipPlugin;
 import me.tox1que.survivalextender.plugins.RecipePlugin.RecipePlugin;
 import me.tox1que.survivalextender.plugins.ThreeWiseMen.ThreeWiseMenPlugin;
 import me.tox1que.survivalextender.utils.Utils;
@@ -23,7 +26,7 @@ public final class SurvivalExtender extends JavaPlugin{
     private static SurvivalExtender main;
     private Economy economy;
 
-    private HalloweenPlugin halloweenPlugin;
+    private CoinflipPlugin coinflipPlugin;
     private ThreeWiseMenPlugin threeWiseMenPlugin;
 
     private String prefix;
@@ -72,6 +75,7 @@ public final class SurvivalExtender extends JavaPlugin{
         if(Utils.getServerType() == ServerType.SURVIVAL){
 //            threeWiseMenPlugin = new ThreeWiseMenPlugin();
         }
+        coinflipPlugin = new CoinflipPlugin();
 
         plugins.forEach(BasePlugin::load);
     }
@@ -130,5 +134,9 @@ public final class SurvivalExtender extends JavaPlugin{
      */
     public ThreeWiseMenPlugin getThreeWiseMenPlugin(){
         return threeWiseMenPlugin;
+    }
+
+    public CoinflipPlugin getCoinflipPlugin(){
+        return coinflipPlugin;
     }
 }

@@ -13,6 +13,6 @@ public class RecipePlugin extends BasePlugin{
     @Override
     public void load(){
         main.getServer().getPluginManager().registerEvents(new RecipeListeners(), main);
-        new RecipeCommand();
+        new RecipeCommand(this);
     }
 }
