@@ -6,6 +6,7 @@ import me.tox1que.survivalextender.utils.Utils;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseCommand implements CommandExecutor, TabCompleter{
@@ -13,15 +14,23 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter{
     protected final SurvivalExtender main;
 
     protected final String name;
+    protected BasePlugin plugin;
     protected final String[] usages;
+    protected List<String[]> completions;
 
     public BaseCommand(String name){
-        this(name, "/"+name);
+        this(name, null);
     }
 
-    public BaseCommand(String name, String... usages){
+    public BaseCommand(String name, BasePlugin plugin){
+        this(name, plugin, "/"+name);
+    }
+
+    public BaseCommand(String name, BasePlugin plugin, String... usages){
         this.name = name;
+        this.plugin = plugin;
         this.usages = usages;
+        this.completions = new ArrayList<>();
         main = SurvivalExtender.getInstance();
 
         PluginCommand command = main.getCommand(name);
@@ -43,7 +52,7 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter{
     }
 
     protected void sendMessage(Player player, String message){
-        player.sendMessage(Utils.getPluginMessage(main.getSecondaryColor()+"Recept", message));
+        plugin.sendMessage(player, message);
     }
 
     @Override
@@ -51,7 +60,21 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter{
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args){
-        return null;
+        if(completions == null)
+            return null;
+        int index = args.length-1;
+        if(completions.size() < index+1)
+            return null;
+
+        List<String> result = new ArrayList<>();
+        String[] completions = this.completions.get(index);
+        for(String s:completions){
+            if(s.toLowerCase().startsWith(args[index].toLowerCase())){
+                result.add(s);
+            }
+        }
+
+        return result;
     }
 
 }
