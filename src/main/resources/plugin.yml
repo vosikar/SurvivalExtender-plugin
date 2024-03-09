@@ -9,6 +9,8 @@ commands:
       - recept
   coinflip:
     description: Otevře coinflip
+    aliases:
+      - cf
 depend:
   - CMI
   - Vault
