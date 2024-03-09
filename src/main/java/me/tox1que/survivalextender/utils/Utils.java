@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,19 +110,13 @@ public class Utils{
     }
 
     public static String formatNumber(double number){
-        String result = formatNumber((int) number);
-        result += "." + String.valueOf(number).split("\\.")[1];
-        return result;
-    }
-
-    public static String formatNumber(int number){
-        if(number < 0){
-            return "-" + formatNumber(-number);
-        }else if(number > 999){
-            return formatNumber(number / 1000) +
-                    String.format(" %03d", number % 1000);
+        DecimalFormat formatter;
+        if(number % 1 == 0){
+            formatter = new DecimalFormat("#,##0");
+        }else{
+            formatter = new DecimalFormat("#,##0.00");
         }
-        return String.format("%d", number);
+        return formatter.format(number);
     }
 
     public static String getFormattedTime(int time){
