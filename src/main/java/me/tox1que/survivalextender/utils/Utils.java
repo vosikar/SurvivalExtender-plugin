@@ -116,7 +116,7 @@ public class Utils{
         }else{
             formatter = new DecimalFormat("#,##0.00");
         }
-        return formatter.format(number);
+        return formatter.format(number).replaceAll(",", " ");
     }
 
     public static String getFormattedTime(int time){
