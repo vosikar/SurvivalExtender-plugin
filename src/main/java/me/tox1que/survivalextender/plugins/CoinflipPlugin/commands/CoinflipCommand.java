@@ -45,6 +45,9 @@ public class CoinflipCommand extends BaseCommand{
                     if(amount < 1000){
                         plugin.sendMessage(player, "Minimální vsazená částka je $1 000.");
                         return false;
+                    }if(amount > 1_000_000){
+                        plugin.sendMessage(player, "Maximální vsazená částka je $1 000 000.");
+                        return false;
                     }
                     if(!PaymentUtils.hasMoney(player, amount)){
                         plugin.sendMessage(player, "Nemáš dostatek financí.");
