@@ -1,5 +1,6 @@
 package me.tox1que.survivalextender.plugins.CoinflipPlugin.utils;
 
+import me.tox1que.survivalextender.utils.SQL.SQLUtils;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -9,16 +10,18 @@ public class CoinflipStats{
     private int wins;
     private int losses;
     private double profit;
+    private boolean announcements;
 
     public CoinflipStats(OfflinePlayer player){
-        this(player, 0, 0, 0);
+        this(player, 0, 0, 0, true);
     }
 
-    public CoinflipStats(OfflinePlayer player, int wins, int losses, double profit){
+    public CoinflipStats(OfflinePlayer player, int wins, int losses, double profit, boolean announcements){
         this.player = player;
         this.wins = wins;
         this.losses = losses;
         this.profit = profit;
+        this.announcements = announcements;
     }
 
     public void addWin(double money){
@@ -47,5 +50,15 @@ public class CoinflipStats{
 
     public double getProfit(){
         return Double.parseDouble(String.format("%.2f", profit));
+    }
+
+    public boolean hasAnnouncements(){
+        return announcements;
+    }
+
+    public String toggleAnnouncements(){
+        announcements = !announcements;
+        CoinflipSQL.updateStats(this);
+        return announcements ? "Zapnul" : "Vypnul";
     }
 }

@@ -15,6 +15,7 @@ public class CoinflipSQL{
         data.put("wins", stats.getWins()+"");
         data.put("losses", stats.getLosses()+"");
         data.put("profit", stats.getProfit()+"");
+        data.put("announcements", stats.hasAnnouncements() ? "1" : "0");
         SQLUtils.insertOrUpdate("coinflip_stats", data);
     }
 
@@ -22,7 +23,8 @@ public class CoinflipSQL{
         SQLUtils.select("coinflip_stats", new String[]{"player"}, new String[]{player.getName()}, 1, result -> {
             CoinflipStats stats;
             if(result.first()){
-                stats = new CoinflipStats(player, result.getInt("wins"), result.getInt("losses"), result.getDouble("profit"));
+                stats = new CoinflipStats(player, result.getInt("wins"), result.getInt("losses"),
+                        result.getDouble("profit"), result.getInt("announcements") == 1);
             }else{
                 stats = new CoinflipStats(player);
             }

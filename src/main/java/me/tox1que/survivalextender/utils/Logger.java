@@ -26,10 +26,6 @@ public class Logger{
             this.keys = keys;
         }
 
-        public void write(Object... values){
-            write(true, values);
-        }
-
         public void write(boolean async, Object... values){
             if(values.length != this.keys.length){
                 Console.SEVERE("Lengths of KEYS and VALUES does not match for Log "+this.name());

@@ -10,7 +10,7 @@ public class PaymentUtils{
             double oldBalance = SurvivalExtender.getInstance().getEconomy().getBalance(player);
             double newBalance = SurvivalExtender.getInstance().getEconomy().getBalance(player)+amount;
             SurvivalExtender.getInstance().getEconomy().depositPlayer(player, amount);
-            Logger.Database.Balance.write(player.getName(), oldBalance, newBalance, Math.abs(amount), PlayerUtils.getParsedLocation(player), comment);
+            Logger.Database.Balance.write(false, player.getName(), oldBalance, newBalance, Math.abs(amount), PlayerUtils.getParsedLocation(player), comment);
         }
     }
 
@@ -23,7 +23,7 @@ public class PaymentUtils{
             double oldBalance = SurvivalExtender.getInstance().getEconomy().getBalance(player);
             double newBalance = SurvivalExtender.getInstance().getEconomy().getBalance(player)-amount;
             SurvivalExtender.getInstance().getEconomy().withdrawPlayer(player, amount);
-            Logger.Database.Balance.write(player.getName(), oldBalance, newBalance, Math.abs(amount), PlayerUtils.getParsedLocation(player), comment);
+            Logger.Database.Balance.write(true, player.getName(), oldBalance, newBalance, Math.abs(amount), PlayerUtils.getParsedLocation(player), comment);
         }
     }
 }

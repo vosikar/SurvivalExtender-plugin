@@ -49,7 +49,7 @@ public class CoinflipGame{
 
         Inventory inventory = Bukkit.createInventory(null, 3*9, getInventoryTitle());
         taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(SurvivalExtender.getInstance(), new Runnable(){
-            int flips = Utils.randomNumber(12)+4;
+            int flips = Utils.randomNumber(12)+6;
             boolean showCreator = false;
             @Override
             public void run(){
@@ -58,8 +58,16 @@ public class CoinflipGame{
                         swapView(inventory, showCreator);
                     }
                     Bukkit.getScheduler().runTaskLater(SurvivalExtender.getInstance(), () -> updateInventories(flips, inventory), 60L);
-                    SurvivalExtender.getInstance().getCoinflipPlugin().broadcastMessage(String.format("[sc]%s [pc]vyhrál Coinflip o [sc]$%s [pc]proti [sc]%s.",
-                            winner.getName(), Utils.formatNumber(prize), loser.getName()));
+
+                    String message = SurvivalExtender.getInstance().getCoinflipPlugin().getFinalMessage(
+                            String.format("[sc]%s [pc]vyhrál Coinflip o [sc]$%s [pc]proti [sc]%s.", winner.getName(), Utils.formatNumber(prize), loser.getName())
+                    );
+                    for(Player player:Bukkit.getOnlinePlayers()){
+                        if(SurvivalExtender.getInstance().getCoinflipPlugin().getStats(player).hasAnnouncements()){
+                            player.sendMessage(message);
+                        }
+                    }
+
                     PaymentUtils.giveMoney(prize, "coinflip win", winner);
                     SurvivalExtender.getInstance().getCoinflipPlugin().getStats(winner).addWin(money);
                     SurvivalExtender.getInstance().getCoinflipPlugin().getStats(loser).addLose(money);
@@ -67,7 +75,6 @@ public class CoinflipGame{
                     if(winner.isOnline() && winner.getPlayer() != null){
                         winner.getPlayer().playSound(winner.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
                     }
-//                    Bukkit.getScheduler().scheduleSyncDelayedTask(SurvivalExtender.getInstance(), () -> SurvivalExtender.getInstance().getCoinflipPlugin().removeCoinflip(gameId), 100L);
                     SurvivalExtender.getInstance().getCoinflipPlugin().removeCoinflip(gameId);
                     return;
                 }
@@ -77,8 +84,6 @@ public class CoinflipGame{
                 showCreator = !showCreator;
             }
         }, 0L, 10L);
-
-        winner.getName();
     }
 
     public void swapView(Inventory inventory, boolean showCreator){
@@ -92,7 +97,7 @@ public class CoinflipGame{
     }
 
     private void updateInventory(int i, Inventory inventory, OfflinePlayer offlinePlayer){
-        if(PlayerUtils.isOnline(offlinePlayer)){
+        if(PlayerUtils.isOnline(offlinePlayer) && offlinePlayer.getPlayer() != null){
             Player player = offlinePlayer.getPlayer();
             if(i <= 0){
                 if(player.getOpenInventory().getTitle().equals(getInventoryTitle())){
@@ -107,12 +112,13 @@ public class CoinflipGame{
         }
     }
 
-    public void refund(){
+    public void refund(boolean remove){
         if(winner != null)
             return;
 
         PaymentUtils.giveMoney(money, "coinflip refund", creator);
-        SurvivalExtender.getInstance().getCoinflipPlugin().removeCoinflip(gameId);
+        if(remove)
+            SurvivalExtender.getInstance().getCoinflipPlugin().removeCoinflip(gameId);
         if(creator.isOnline() && creator.getPlayer() != null){
             SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage(creator.getPlayer(), String.format("Tvá hra byla zrušena a bylo ti navráceno $%s.", Utils.formatNumber(money)));
             creator.getPlayer().closeInventory();
