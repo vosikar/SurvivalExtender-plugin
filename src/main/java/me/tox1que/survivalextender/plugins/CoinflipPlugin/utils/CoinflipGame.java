@@ -59,12 +59,10 @@ public class CoinflipGame{
                     }
                     Bukkit.getScheduler().runTaskLater(SurvivalExtender.getInstance(), () -> updateInventories(flips, inventory), 60L);
 
-                    String message = SurvivalExtender.getInstance().getCoinflipPlugin().getFinalMessage(
-                            String.format("[sc]%s [pc]vyhrál Coinflip o [sc]$%s [pc]proti [sc]%s.", winner.getName(), Utils.formatNumber(prize), loser.getName())
-                    );
+                    String message = String.format("[sc]%s [pc]vyhrál Coinflip o [sc]$%s [pc]proti [sc]%s.", winner.getName(), Utils.formatNumber(prize), loser.getName());
                     for(Player player:Bukkit.getOnlinePlayers()){
                         if(SurvivalExtender.getInstance().getCoinflipPlugin().getStats(player).hasAnnouncements()){
-                            player.sendMessage(message);
+                            SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage(player, message);
                         }
                     }
 
