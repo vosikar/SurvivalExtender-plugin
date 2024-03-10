@@ -11,6 +11,7 @@ public class Logger{
 
     public enum Database{
         Balance("balance", "player", "old", "new", "value", "location", "comment"),
+        Coinflip("coinflip", "winner", "loser", "enter_price", "total_win"),
         ;
 
         private final String name;

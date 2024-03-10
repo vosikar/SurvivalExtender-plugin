@@ -61,6 +61,7 @@ public class CoinflipGame{
 
                     String message = String.format("[sc]%s [pc]vyhrál Coinflip o [sc]$%s [pc]proti [sc]%s.", winner.getName(), Utils.formatNumber(prize), loser.getName());
                     Logger.Console.INFO(message);
+                    Logger.Database.Coinflip.write(true, winner.getName(), loser.getName(), money, prize);
                     for(Player player:Bukkit.getOnlinePlayers()){
                         if(SurvivalExtender.getInstance().getCoinflipPlugin().getStats(player).hasAnnouncements()){
                             SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage(player, message);
