@@ -15,3 +15,5 @@ depend:
   - CMI
   - Vault
   - HeadDatabase
+softdepend:
+  - Core
