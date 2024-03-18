@@ -3,6 +3,7 @@ package me.tox1que.survivalextender;
 import me.tox1que.survivalextender.listeners.EasterHandlers;
 import me.tox1que.survivalextender.listeners.EnchantHandles;
 import me.tox1que.survivalextender.listeners.SmithingTableHandlers;
+import me.tox1que.survivalextender.listeners.SpecialItemsHandlers;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.CoinflipPlugin;
 import me.tox1que.survivalextender.plugins.RecipePlugin.RecipePlugin;
 import me.tox1que.survivalextender.plugins.ThreeWiseMen.ThreeWiseMenPlugin;
@@ -58,6 +59,7 @@ public final class SurvivalExtender extends JavaPlugin{
         this.getServer().getPluginManager().registerEvents(new EasterHandlers(), this);
         this.getServer().getPluginManager().registerEvents(new EnchantHandles(), this);
         this.getServer().getPluginManager().registerEvents(new SmithingTableHandlers(), this);
+        this.getServer().getPluginManager().registerEvents(new SpecialItemsHandlers(), this);
 
         loadManagers();
     }

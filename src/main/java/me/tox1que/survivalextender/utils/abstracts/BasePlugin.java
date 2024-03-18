@@ -1,10 +1,7 @@
 package me.tox1que.survivalextender.utils.abstracts;
 
 import me.tox1que.survivalextender.SurvivalExtender;
-import me.tox1que.survivalextender.utils.Logger;
-import me.tox1que.survivalextender.utils.Utils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public abstract class BasePlugin{
