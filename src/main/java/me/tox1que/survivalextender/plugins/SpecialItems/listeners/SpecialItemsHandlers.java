@@ -1,5 +1,6 @@
-package me.tox1que.survivalextender.listeners;
+package me.tox1que.survivalextender.plugins.SpecialItems.listeners;
 
+import me.tox1que.survivalextender.plugins.SpecialItems.SpecialItemsPlugin;
 import me.tox1que.survivalextender.utils.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -11,13 +12,13 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class SpecialItemsHandlers implements Listener{
 
-    private final String MINER_INVENTORY_NAME =  ItemUtils.colorize("#00C0CCKopáčův inventář");
-    private final Map<String, Inventory> inventories = new HashMap<>();
+    private final SpecialItemsPlugin plugin;
+
+    public SpecialItemsHandlers(SpecialItemsPlugin plugin){
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void minerPickaxeInventoryOpen(PlayerInteractEvent e){
@@ -36,15 +37,17 @@ public class SpecialItemsHandlers implements Listener{
         if(!inHand.getItemMeta().getDisplayName().equals(ItemUtils.colorize("#00C0CC&lKopáčův krumpáč")))
             return;
 
-        Inventory inventory = inventories.getOrDefault(player.getName(), Bukkit.createInventory(player, 27, MINER_INVENTORY_NAME));
+        Inventory inventory = plugin.getInventory(player);
         player.openInventory(inventory);
     }
 
     @EventHandler
     public void minerPickaxeInventoryClose(InventoryCloseEvent e){
-        if(!e.getView().getTitle().equals(MINER_INVENTORY_NAME))
+        if(!e.getView().getTitle().equals(plugin.getMinerInventoryName()))
+            return;
+        if(!(e.getPlayer() instanceof Player player))
             return;
 
-        inventories.put(e.getPlayer().getName(), e.getInventory());
+        plugin.updateInventory(player, e.getInventory());
     }
 }

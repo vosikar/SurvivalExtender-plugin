@@ -3,7 +3,7 @@ package me.tox1que.survivalextender;
 import me.tox1que.survivalextender.listeners.EasterHandlers;
 import me.tox1que.survivalextender.listeners.EnchantHandles;
 import me.tox1que.survivalextender.listeners.SmithingTableHandlers;
-import me.tox1que.survivalextender.listeners.SpecialItemsHandlers;
+import me.tox1que.survivalextender.plugins.SpecialItems.SpecialItemsPlugin;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.CoinflipPlugin;
 import me.tox1que.survivalextender.plugins.RecipePlugin.RecipePlugin;
 import me.tox1que.survivalextender.plugins.ThreeWiseMen.ThreeWiseMenPlugin;
@@ -13,11 +13,8 @@ import me.tox1que.survivalextender.utils.enums.ServerType;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +74,10 @@ public final class SurvivalExtender extends JavaPlugin{
         if(Utils.getServerType() == ServerType.SURVIVAL){
 //            threeWiseMenPlugin = new ThreeWiseMenPlugin();
         }
+        if(Utils.getServerType() != ServerType.ONEBLOCK){
+            new SpecialItemsPlugin();
+        }
+
         coinflipPlugin = new CoinflipPlugin();
 
         plugins.forEach(BasePlugin::load);
