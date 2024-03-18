@@ -6,7 +6,7 @@ import me.tox1que.survivalextender.listeners.SmithingTableHandlers;
 import me.tox1que.survivalextender.plugins.SpecialItems.SpecialItemsPlugin;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.CoinflipPlugin;
 import me.tox1que.survivalextender.plugins.RecipePlugin.RecipePlugin;
-import me.tox1que.survivalextender.plugins.ThreeWiseMen.ThreeWiseMenPlugin;
+import me.tox1que.survivalextender.plugins.SeasonalQuests.SeasonalPlugin;
 import me.tox1que.survivalextender.utils.Utils;
 import me.tox1que.survivalextender.utils.abstracts.BasePlugin;
 import me.tox1que.survivalextender.utils.enums.ServerType;
@@ -25,7 +25,7 @@ public final class SurvivalExtender extends JavaPlugin{
     private Economy economy;
 
     private CoinflipPlugin coinflipPlugin;
-    private ThreeWiseMenPlugin threeWiseMenPlugin;
+    private SeasonalPlugin seasonalPlugin;
 
     private String prefix;
     private ChatColor primaryColor;
@@ -49,14 +49,9 @@ public final class SurvivalExtender extends JavaPlugin{
 
         this.plugins = new ArrayList<>();
 
-        if(Utils.getServerType() == ServerType.SURVIVAL){
-            specialItemsChecker();
-        }
-
         this.getServer().getPluginManager().registerEvents(new EasterHandlers(), this);
         this.getServer().getPluginManager().registerEvents(new EnchantHandles(), this);
         this.getServer().getPluginManager().registerEvents(new SmithingTableHandlers(), this);
-        this.getServer().getPluginManager().registerEvents(new SpecialItemsHandlers(), this);
 
         loadManagers();
     }
@@ -68,11 +63,8 @@ public final class SurvivalExtender extends JavaPlugin{
 
     private void loadManagers(){
         new RecipePlugin();
-//        if(Utils.getServerName().equals("OldSurvival") || Bukkit.getServer().getPort() == 30015){
-//            halloweenPlugin = new HalloweenPlugin();
-//        }
         if(Utils.getServerType() == ServerType.SURVIVAL){
-//            threeWiseMenPlugin = new ThreeWiseMenPlugin();
+            seasonalPlugin = new SeasonalPlugin();
         }
         if(Utils.getServerType() != ServerType.ONEBLOCK){
             new SpecialItemsPlugin();
@@ -85,19 +77,6 @@ public final class SurvivalExtender extends JavaPlugin{
 
     public void addPlugin(BasePlugin plugin){
         plugins.add(plugin);
-    }
-
-    public void specialItemsChecker(){
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-            Bukkit.getOnlinePlayers().forEach(player -> {
-                ItemStack helmet = player.getInventory().getHelmet();
-                if(helmet != null && helmet.getItemMeta() != null){
-                    if(helmet.getItemMeta().getDisplayName().equals(ChatColor.of("#CCBC29")+"§lBaltazarova korunka")){
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
-                    }
-                }
-            });
-        }, 100L, 100L);
     }
 
     public static SurvivalExtender getInstance(){
@@ -135,8 +114,8 @@ public final class SurvivalExtender extends JavaPlugin{
     /*
         Plugin getters
      */
-    public ThreeWiseMenPlugin getThreeWiseMenPlugin(){
-        return threeWiseMenPlugin;
+    public SeasonalPlugin getSeasonalPlugin(){
+        return seasonalPlugin;
     }
 
     public CoinflipPlugin getCoinflipPlugin(){

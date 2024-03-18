@@ -1,4 +1,4 @@
-package me.tox1que.survivalextender.plugins.ThreeWiseMen.utils;
+package me.tox1que.survivalextender.plugins.SeasonalQuests.utils;
 
 import me.tox1que.survivalextender.SurvivalExtender;
 import me.tox1que.survivalextender.utils.SQL.SQLUtils;
@@ -12,7 +12,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TWMSQL{
+public class SeasonalSQL{
+
+    private final static String TABLE_NAME = "quests_spring";
 
     public static void completeQuest(Player player, QuestType type){
         Bukkit.getScheduler().runTaskAsynchronously(SurvivalExtender.getInstance(), () -> {
@@ -24,7 +26,7 @@ public class TWMSQL{
                 con = SQLUtils.getNewConnection();
                 String value = type.toString().toLowerCase();
                 ps = con.prepareStatement(
-                        String.format("INSERT INTO quests_tri_kralove (player, %s) VALUES (?, 1) ON DUPLICATE KEY UPDATE %s=%s + 1", value, value, value),
+                        String.format("INSERT INTO %s (`player`, `character`, `completed`) VALUES (?, '%s', 1) ON DUPLICATE KEY UPDATE `completed`=`completed`+1", TABLE_NAME, value),
                         ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE
                 );
                 ps.setString(1, player.getName());
@@ -50,21 +52,16 @@ public class TWMSQL{
 
             try{
                 con = SQLUtils.getNewConnection();
-                ps = con.prepareStatement("SELECT * FROM quests_tri_kralove WHERE player=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = con.prepareStatement("SELECT * FROM "+TABLE_NAME+" WHERE player=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, player.getName());
                 ps.execute();
                 result = ps.getResultSet();
 
                 List<QuestType> completed = new ArrayList<>();
-                if(result.first()){
-                    for(QuestType questType:QuestType.values()){
-                        int amount = result.getInt(questType.toString().toLowerCase());
-                        for(int i = 0; i < amount; i++){
-                            completed.add(questType);
-                        }
-                    }
+                while(result.next()){
+                    completed.add(QuestType.valueOf(result.getString("character").toUpperCase()));
                 }
-                SurvivalExtender.getInstance().getThreeWiseMenPlugin().addProfile(player, new PlayerProfile(player, completed));
+                SurvivalExtender.getInstance().getSeasonalPlugin().addProfile(player, new PlayerProfile(player, completed));
                 ps.close();
             }catch(SQLException ex){
                 ex.printStackTrace();

@@ -1,4 +1,4 @@
-package me.tox1que.survivalextender.plugins.ThreeWiseMen.utils;
+package me.tox1que.survivalextender.plugins.SeasonalQuests.utils;
 
 import org.bukkit.entity.Player;
 
@@ -17,11 +17,11 @@ public class PlayerProfile{
 
     public void completeQuest(QuestType questType){
         completed.add(questType);
-        TWMSQL.completeQuest(player, questType);
+        SeasonalSQL.completeQuest(player, questType);
     }
 
     public boolean completedQuest(QuestType questType){
-        return getProgress(questType) == questType.getLimit();
+        return completed.contains(questType);
     }
 
     public Player getPlayer(){
