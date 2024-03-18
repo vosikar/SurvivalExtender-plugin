@@ -129,15 +129,6 @@ public class Utils{
         return dateFormat.format(date);
     }
 
-    public static ItemStack getKitItem(String name){
-        Kit kit = CMI.getInstance().getKitsManager().getKit(name, true);
-        if(kit == null){
-            main.getLogger().severe("Kit "+name+" is null! !");
-            return null;
-        }
-        return kit.getFirstNotNullItem();
-    }
-
     public static String getPluginMessage(String msg){
         return getPluginMessage(prefix, msg);
     }

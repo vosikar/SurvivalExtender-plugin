@@ -3,6 +3,7 @@ package me.tox1que.survivalextender.utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
@@ -27,5 +28,9 @@ public class PlayerUtils{
 
     public static boolean isOnline(OfflinePlayer player){
         return player != null && player.getPlayer() != null && player.isOnline();
+    }
+
+    public static void sendSystemMessage(Player player, String message){
+        player.sendMessage("§3Systém §7» §b"+message);
     }
 }

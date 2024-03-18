@@ -1,6 +1,12 @@
 package me.tox1que.survivalextender.utils;
 
+import com.Zrips.CMI.CMI;
+import com.Zrips.CMI.Modules.Kits.Kit;
+import me.saves.core.managers.ItemsManager;
+import me.tox1que.survivalextender.SurvivalExtender;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -8,12 +14,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ItemUtils{
-
-    public static void fillInventory(Inventory inventory, ItemStack fill){
-        for(int i = 0; i < inventory.getSize(); i++){
-            inventory.setItem(i, fill);
-        }
-    }
 
     public static String colorize(String string){
         Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
@@ -23,6 +23,31 @@ public class ItemUtils{
         }
         string = ChatColor.translateAlternateColorCodes('&', string); // Translates any & codes too
         return string;
+    }
+
+    public static void fillInventory(Inventory inventory, ItemStack fill){
+        for(int i = 0; i < inventory.getSize(); i++){
+            inventory.setItem(i, fill);
+        }
+    }
+
+    public static ItemStack getKitItem(String name){
+        Kit kit = CMI.getInstance().getKitsManager().getKit(name, true);
+        if(kit == null){
+            Logger.Console.SEVERE("Kit "+name+" is null! !");
+            return null;
+        }
+        return kit.getFirstNotNullItem();
+    }
+
+    public static void giveKit(Player player, String name){
+        Kit kit = CMI.getInstance().getKitsManager().getKit(name, true);
+        if(kit == null){
+            Logger.Console.SEVERE("Kit "+name+" is null! !");
+        }else{
+            PlayerUtils.sendSystemMessage(player, "Obdržel jsi kit §b§o"+name+"§b.");
+            CoreConnector.addItemsToInventoryOrSafe(player, kit.getItems().stream().filter(is -> is != null && is.getType() != Material.AIR).toArray(ItemStack[]::new));
+        }
     }
 
 }
