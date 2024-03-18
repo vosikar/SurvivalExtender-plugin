@@ -40,15 +40,15 @@ public abstract class BasePlugin{
     }
 
     public void broadcastMessage(String message){
-        Bukkit.broadcastMessage(getFinalMessage("[sc]"+prefix+" §7» [pc]"+message));
+        Bukkit.broadcastMessage(getFinalMessage("[sc]" + prefix + " §7» [pc]" + message));
     }
 
     public void sendAlertMessage(Player player, String message){
-        player.sendMessage(getFinalMessage("§4"+prefix+" §7» §c"+message));
+        player.sendMessage(getFinalMessage("§4" + prefix + " §7» §c" + message));
     }
 
     public void sendMessage(Player player, String message){
-        player.sendMessage(getFinalMessage("[sc]"+prefix+" §7» [pc]"+message));
+        player.sendMessage(getFinalMessage("[sc]" + prefix + " §7» [pc]" + message));
     }
 
     public abstract void load();

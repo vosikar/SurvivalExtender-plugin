@@ -3,10 +3,10 @@ package me.tox1que.survivalextender;
 import me.tox1que.survivalextender.listeners.EasterHandlers;
 import me.tox1que.survivalextender.listeners.EnchantHandles;
 import me.tox1que.survivalextender.listeners.SmithingTableHandlers;
-import me.tox1que.survivalextender.plugins.SpecialItems.SpecialItemsPlugin;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.CoinflipPlugin;
 import me.tox1que.survivalextender.plugins.RecipePlugin.RecipePlugin;
 import me.tox1que.survivalextender.plugins.SeasonalQuests.SeasonalPlugin;
+import me.tox1que.survivalextender.plugins.SpecialItems.SpecialItemsPlugin;
 import me.tox1que.survivalextender.utils.Utils;
 import me.tox1que.survivalextender.utils.abstracts.BasePlugin;
 import me.tox1que.survivalextender.utils.enums.ServerType;
@@ -32,6 +32,10 @@ public final class SurvivalExtender extends JavaPlugin{
     private ChatColor secondaryColor;
 
     private List<BasePlugin> plugins;
+
+    public static SurvivalExtender getInstance(){
+        return main;
+    }
 
     @Override
     public void onEnable(){
@@ -77,10 +81,6 @@ public final class SurvivalExtender extends JavaPlugin{
 
     public void addPlugin(BasePlugin plugin){
         plugins.add(plugin);
-    }
-
-    public static SurvivalExtender getInstance(){
-        return main;
     }
 
     private boolean setupEconomy(){

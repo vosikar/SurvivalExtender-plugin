@@ -16,7 +16,7 @@ public class RecipeListeners implements Listener{
             return;
         e.setCancelled(true);
 
-        ItemStack clicked =  e.getCurrentItem();
+        ItemStack clicked = e.getCurrentItem();
         if(clicked == null)
             return;
         if(clicked.getItemMeta() == null)
@@ -29,7 +29,7 @@ public class RecipeListeners implements Listener{
             if(e.getRawSlot() != 53){
                 page -= 2;
             }
-            ((Player) e.getWhoClicked()).performCommand("survivalextender:recipe "+title.split(" ")[2]+" "+page);
+            ((Player) e.getWhoClicked()).performCommand("survivalextender:recipe " + title.split(" ")[2] + " " + page);
         }
     }
 }

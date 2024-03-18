@@ -1,14 +1,12 @@
 package me.tox1que.survivalextender.plugins.CoinflipPlugin;
 
 import me.arcaniax.hdb.api.DatabaseLoadEvent;
-import me.arcaniax.hdb.api.HeadDatabaseAPI;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.commands.CoinflipCommand;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.listeners.CoinflipListeners;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.utils.CoinflipGame;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.utils.CoinflipStats;
 import me.tox1que.survivalextender.utils.Builder.ItemBuilder;
 import me.tox1que.survivalextender.utils.Logger;
-import me.tox1que.survivalextender.utils.PaymentUtils;
 import me.tox1que.survivalextender.utils.Utils;
 import me.tox1que.survivalextender.utils.abstracts.BasePlugin;
 import org.bukkit.Bukkit;
@@ -29,9 +27,8 @@ public class CoinflipPlugin extends BasePlugin implements Listener{
 
     private final List<CoinflipGame> games;
     private final Map<String, CoinflipStats> stats;
-    private int gameId;
     private final int perPage;
-
+    private int gameId;
     private ItemStack fillItem1;
     private ItemStack fillItem2;
     private ItemBuilder rightArrow;
@@ -66,7 +63,7 @@ public class CoinflipPlugin extends BasePlugin implements Listener{
 
     @Override
     public void unload(){
-        for(CoinflipGame game:games){
+        for(CoinflipGame game : games){
             game.refund(false);
         }
         Logger.Console.INFO("Paid back for Coinflips in /coinflip");
@@ -80,7 +77,7 @@ public class CoinflipPlugin extends BasePlugin implements Listener{
     }
 
     public void openOverview(Player player, int page){
-        Inventory inv = Bukkit.createInventory(null, 5*9, "§6Coinflip - přehled");
+        Inventory inv = Bukkit.createInventory(null, 5 * 9, "§6Coinflip - přehled");
         Utils.borderInventory(inv, new ItemBuilder(Material.ORANGE_STAINED_GLASS_PANE).setDisplayName(" ").fakeEnchant().build());
 
         //Create stats item
@@ -89,45 +86,45 @@ public class CoinflipPlugin extends BasePlugin implements Listener{
         int losses = playerStats.getLosses();
         inv.setItem(40,
                 new ItemBuilder(Material.BOOK)
-                        .setDisplayName(secondaryColor+"Statistiky")
+                        .setDisplayName(secondaryColor + "Statistiky")
                         .setLores(
                                 "",
-                                String.format("%sVýhry: %s%s (%s)", primaryColor, secondaryColor, wins, Utils.getPercentage(wins, losses)+" %"),
-                                String.format("%sProhry: %s%s (%s)", primaryColor, secondaryColor, losses, Utils.getPercentage(losses, wins)+" %"),
-                                primaryColor+"Celkem profit: "+secondaryColor+"$"+Utils.formatNumber(playerStats.getProfit())
-                                )
+                                String.format("%sVýhry: %s%s (%s)", primaryColor, secondaryColor, wins, Utils.getPercentage(wins, losses) + " %"),
+                                String.format("%sProhry: %s%s (%s)", primaryColor, secondaryColor, losses, Utils.getPercentage(losses, wins) + " %"),
+                                primaryColor + "Celkem profit: " + secondaryColor + "$" + Utils.formatNumber(playerStats.getProfit())
+                        )
                         .build()
         );
 
-        int maxPage = games.size()/(perPage+1);
+        int maxPage = games.size() / (perPage + 1);
         if(page > maxPage){
             page = maxPage;
         }
 
         if(page > 0){
-            inv.setItem(36, leftArrow.setLores("", "§ePřechod na stránku "+(page)).build());
+            inv.setItem(36, leftArrow.setLores("", "§ePřechod na stránku " + (page)).build());
         }
         if(page < maxPage){
-            inv.setItem(44, rightArrow.setLores("", "§ePřechod na stránku "+(page+2)).build());
+            inv.setItem(44, rightArrow.setLores("", "§ePřechod na stránku " + (page + 2)).build());
         }
 
         //Create item for every game
-        for(int i = page*perPage; i < (page+1)*perPage && i < games.size(); i++){
+        for(int i = page * perPage; i < (page + 1) * perPage && i < games.size(); i++){
             CoinflipGame game = games.get(i);
             ItemBuilder item = new ItemBuilder(Material.CLOCK)
-                    .setDisplayName(getSecondaryColor()+game.getCreator().getName())
+                    .setDisplayName(getSecondaryColor() + game.getCreator().getName())
                     .setLores(
-                            "§8§o"+game.getGameId(),
+                            "§8§o" + game.getGameId(),
                             "",
-                            primaryColor+"Vytvořil: "+secondaryColor+game.getCreator().getName(),
-                            primaryColor+"Vklad: "+secondaryColor+"$"+Utils.formatNumber(game.getMoney()),
-                            primaryColor+"Celková výhra: "+secondaryColor+"$"+Utils.formatNumber(game.getPrize())
+                            primaryColor + "Vytvořil: " + secondaryColor + game.getCreator().getName(),
+                            primaryColor + "Vklad: " + secondaryColor + "$" + Utils.formatNumber(game.getMoney()),
+                            primaryColor + "Celková výhra: " + secondaryColor + "$" + Utils.formatNumber(game.getPrize())
                     );
             if(game.getCreator().getName().equals(player.getName())){
-                item.addLore("", primaryColor+"Klikni pravým pro zrušení");
+                item.addLore("", primaryColor + "Klikni pravým pro zrušení");
             }
             if(game.getWinner() != null){
-                item.addLore(primaryColor+"Výherce: "+secondaryColor+game.getWinner().getName());
+                item.addLore(primaryColor + "Výherce: " + secondaryColor + game.getWinner().getName());
             }
             inv.addItem(item.build());
         }
@@ -148,7 +145,7 @@ public class CoinflipPlugin extends BasePlugin implements Listener{
      */
 
     public CoinflipGame getGameById(int id){
-        for(CoinflipGame game:games){
+        for(CoinflipGame game : games){
             if(game.getGameId() == id)
                 return game;
         }

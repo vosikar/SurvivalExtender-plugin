@@ -21,7 +21,7 @@ public class Logger{
             if(Utils.getServerType() == ServerType.SURVIVAL_REWORK){
                 name += "_rework";
             }else if(Utils.getServerType() == ServerType.ONEBLOCK){
-                name = "oneblock_"+name;
+                name = "oneblock_" + name;
             }
             this.name = name;
             this.keys = keys;
@@ -29,14 +29,14 @@ public class Logger{
 
         public void write(boolean async, Object... values){
             if(values.length != this.keys.length){
-                Console.SEVERE("Lengths of KEYS and VALUES does not match for Log "+this.name());
+                Console.SEVERE("Lengths of KEYS and VALUES does not match for Log " + this.name());
                 return;
             }
             Map<String, Object> data = new HashMap<>();
             for(int i = 0; i < keys.length; i++){
                 data.put(this.keys[i], values[i]);
             }
-            SQLUtils.insert("minehub_logs."+this.name, data, async);
+            SQLUtils.insert("minehub_logs." + this.name, data, async);
         }
     }
 

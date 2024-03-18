@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class SpecialItemsPlugin extends BasePlugin{
 
-    private final String MINER_INVENTORY_NAME =  ItemUtils.colorize("#00C0CCKopáčův inventář");
+    private final String MINER_INVENTORY_NAME = ItemUtils.colorize("#00C0CCKopáčův inventář");
     private final Map<String, Inventory> inventories = new HashMap<>();
 
     @Override
@@ -54,7 +54,7 @@ public class SpecialItemsPlugin extends BasePlugin{
         Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> Bukkit.getOnlinePlayers().forEach(player -> {
             ItemStack helmet = player.getInventory().getHelmet();
             if(helmet != null && helmet.getItemMeta() != null){
-                if(helmet.getItemMeta().getDisplayName().equals(ChatColor.of("#CCBC29")+"§lBaltazarova korunka")){
+                if(helmet.getItemMeta().getDisplayName().equals(ChatColor.of("#CCBC29") + "§lBaltazarova korunka")){
                     player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
                 }
             }
@@ -68,6 +68,6 @@ public class SpecialItemsPlugin extends BasePlugin{
                     sendAlertMessage(player, "Pozor! Máš v Kopačově inventáři uložené itemy, které ti po restartu zmizí.");
                 }
             }
-        }), 1000L, 20*60*5L);
+        }), 1000L, 20 * 60 * 5L);
     }
 }

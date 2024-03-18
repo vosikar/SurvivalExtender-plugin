@@ -1,8 +1,6 @@
 package me.tox1que.survivalextender.plugins.CoinflipPlugin.utils;
 
-import me.tox1que.survivalextender.utils.SQL.SQLUtils;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 public class CoinflipStats{
 

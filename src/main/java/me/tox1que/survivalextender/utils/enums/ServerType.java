@@ -5,5 +5,4 @@ public enum ServerType{
     SURVIVAL,
     SURVIVAL_REWORK,
     ONEBLOCK
-    ;
 }

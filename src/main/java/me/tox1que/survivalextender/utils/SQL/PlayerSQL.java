@@ -2,7 +2,6 @@ package me.tox1que.survivalextender.utils.SQL;
 
 import me.tox1que.survivalextender.SurvivalExtender;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

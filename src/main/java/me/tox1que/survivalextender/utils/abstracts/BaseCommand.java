@@ -14,8 +14,8 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter{
     protected final SurvivalExtender main;
 
     protected final String name;
-    protected BasePlugin plugin;
     protected final String[] usages;
+    protected BasePlugin plugin;
     protected List<String[]> completions;
 
     public BaseCommand(String name){
@@ -23,7 +23,7 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter{
     }
 
     public BaseCommand(String name, BasePlugin plugin){
-        this(name, plugin, "/"+name);
+        this(name, plugin, "/" + name);
     }
 
     public BaseCommand(String name, BasePlugin plugin, String... usages){
@@ -38,16 +38,16 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter{
             command.setExecutor(this);
             command.setTabCompleter(this);
         }else{
-            Logger.Console.SEVERE("UNABLE TO REGISTER COMMAND "+name);
-            Logger.Console.SEVERE("UNABLE TO REGISTER COMMAND "+name);
-            Logger.Console.SEVERE("UNABLE TO REGISTER COMMAND "+name);
+            Logger.Console.SEVERE("UNABLE TO REGISTER COMMAND " + name);
+            Logger.Console.SEVERE("UNABLE TO REGISTER COMMAND " + name);
+            Logger.Console.SEVERE("UNABLE TO REGISTER COMMAND " + name);
         }
     }
 
     protected void sendUsage(CommandSender sender){
         sender.sendMessage(Utils.getPluginMessage("Špatné použití příkazu, příklady použití:"));
-        for(String s:usages){
-            sender.sendMessage(Utils.getPluginMessage("/"+this.name+" "+s));
+        for(String s : usages){
+            sender.sendMessage(Utils.getPluginMessage("/" + this.name + " " + s));
         }
     }
 
@@ -62,13 +62,13 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter{
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args){
         if(completions == null)
             return null;
-        int index = args.length-1;
-        if(completions.size() < index+1)
+        int index = args.length - 1;
+        if(completions.size() < index + 1)
             return null;
 
         List<String> result = new ArrayList<>();
         String[] completions = this.completions.get(index);
-        for(String s:completions){
+        for(String s : completions){
             if(s.toLowerCase().startsWith(args[index].toLowerCase())){
                 result.add(s);
             }

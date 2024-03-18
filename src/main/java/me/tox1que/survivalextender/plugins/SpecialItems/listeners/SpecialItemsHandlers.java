@@ -2,7 +2,6 @@ package me.tox1que.survivalextender.plugins.SpecialItems.listeners;
 
 import me.tox1que.survivalextender.plugins.SpecialItems.SpecialItemsPlugin;
 import me.tox1que.survivalextender.utils.ItemUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -6,13 +6,13 @@ import org.bukkit.OfflinePlayer;
 public class PaymentUtils{
 
     public static void giveMoney(double amount, String comment, OfflinePlayer... players){
-        for(OfflinePlayer player:players){
+        for(OfflinePlayer player : players){
             double oldBalance = SurvivalExtender.getInstance().getEconomy().getBalance(player);
-            double newBalance = SurvivalExtender.getInstance().getEconomy().getBalance(player)+amount;
+            double newBalance = SurvivalExtender.getInstance().getEconomy().getBalance(player) + amount;
             SurvivalExtender.getInstance().getEconomy().depositPlayer(player, amount);
             Logger.Database.Balance.write(false, player.getName(), oldBalance, newBalance, Math.abs(amount), PlayerUtils.getParsedLocation(player), comment);
             if(PlayerUtils.isOnline(player)){
-                player.getPlayer().sendMessage("§8§8+$"+Utils.formatNumber(amount));
+                player.getPlayer().sendMessage("§8§8+$" + Utils.formatNumber(amount));
             }
         }
     }
@@ -21,14 +21,14 @@ public class PaymentUtils{
         return SurvivalExtender.getInstance().getEconomy().has(player, amount);
     }
 
-    public static void takeMoney(double amount, String comment,  OfflinePlayer... players){
-        for(OfflinePlayer player:players){
+    public static void takeMoney(double amount, String comment, OfflinePlayer... players){
+        for(OfflinePlayer player : players){
             double oldBalance = SurvivalExtender.getInstance().getEconomy().getBalance(player);
-            double newBalance = SurvivalExtender.getInstance().getEconomy().getBalance(player)-amount;
+            double newBalance = SurvivalExtender.getInstance().getEconomy().getBalance(player) - amount;
             SurvivalExtender.getInstance().getEconomy().withdrawPlayer(player, amount);
             Logger.Database.Balance.write(true, player.getName(), oldBalance, newBalance, Math.abs(amount), PlayerUtils.getParsedLocation(player), comment);
             if(PlayerUtils.isOnline(player)){
-                player.getPlayer().sendMessage("§8§8-$"+Utils.formatNumber(amount));
+                player.getPlayer().sendMessage("§8§8-$" + Utils.formatNumber(amount));
             }
         }
     }

@@ -1,15 +1,11 @@
 package me.tox1que.survivalextender.plugins.CoinflipPlugin.commands;
 
-import me.tox1que.survivalextender.SurvivalExtender;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.CoinflipPlugin;
 import me.tox1que.survivalextender.utils.PaymentUtils;
 import me.tox1que.survivalextender.utils.abstracts.BaseCommand;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CoinflipCommand extends BaseCommand{
 
@@ -29,7 +25,7 @@ public class CoinflipCommand extends BaseCommand{
         if(args.length <= 1){
             if(args.length > 0){
                 if(args[0].equalsIgnoreCase("oznameni") || args[0].equalsIgnoreCase("announcement")){
-                    plugin.sendMessage(player, plugin.getStats(player).toggleAnnouncements()+" sis oznámení z Coinflipů.");
+                    plugin.sendMessage(player, plugin.getStats(player).toggleAnnouncements() + " sis oznámení z Coinflipů.");
                     return false;
                 }
             }
@@ -48,7 +44,7 @@ public class CoinflipCommand extends BaseCommand{
                 int amount = Integer.parseInt(args[1]);
                 if(plugin.getGames().stream().filter(game -> game.getCreator().getName().equals(player.getName())).count() >= 5){
                     plugin.sendMessage(player, "Nemůžeš vytvořit více než 5 her.");
-                        return false;
+                    return false;
                 }
                 if(amount < 1000){
                     plugin.sendMessage(player, "Minimální vsazená částka je $1 000.");

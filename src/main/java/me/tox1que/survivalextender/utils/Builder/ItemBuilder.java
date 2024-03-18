@@ -22,9 +22,9 @@ import java.util.List;
 
 public class ItemBuilder{
 
-    private ItemStack itemStack;
+    private final ItemStack itemStack;
     private ItemMeta itemMeta;
-    private ArrayList<ItemProperty> properties = new ArrayList<>();
+    private final ArrayList<ItemProperty> properties = new ArrayList<>();
     private String hdb = null;
 
     public ItemBuilder(Material material){

@@ -9,8 +9,7 @@ public enum QuestType{
     STYDLIN("Stydlín"),
     STISTKO("Štístko"),
     DRIMAL("Dřímal"),
-    SNEHURKA("Sněhurka")
-    ;
+    SNEHURKA("Sněhurka");
 
     private final String name;
 

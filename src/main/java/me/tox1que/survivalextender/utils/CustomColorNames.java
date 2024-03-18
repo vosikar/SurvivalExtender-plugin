@@ -1,6 +1,6 @@
 package me.tox1que.survivalextender.utils;
 
-public enum CustomColorNames {
+public enum CustomColorNames{
     Black("000000"),
     Navy_Blue("000080"),
     Dark_Blue("0000C8"),
@@ -1568,19 +1568,19 @@ public enum CustomColorNames {
     Ivory("FFFFF0"),
     White("FFFFFF");
 
-    private String hex;
+    private final String hex;
     private long rgb = 0L;
 
-    private CustomColorNames(String hex) {
+    CustomColorNames(String hex){
         this.hex = hex.toLowerCase();
         this.rgb = Long.parseLong(hex, 16);
     }
 
-    public String getHex() {
+    public String getHex(){
         return this.hex;
     }
 
-    public long getRgb() {
+    public long getRgb(){
         return this.rgb;
     }
 }

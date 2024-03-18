@@ -3,7 +3,6 @@ package me.tox1que.survivalextender.plugins.CoinflipPlugin.listeners;
 import me.tox1que.survivalextender.SurvivalExtender;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.utils.CoinflipGame;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.utils.CoinflipSQL;
-import me.tox1que.survivalextender.utils.Logger;
 import me.tox1que.survivalextender.utils.PaymentUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -41,7 +40,7 @@ public class CoinflipListeners implements Listener{
                 int page = Integer.parseInt(ChatColor.stripColor(itemStack.getItemMeta().getLore().get(1)).replace("Přechod na stránku ", ""));
                 if(e.getRawSlot() == 36)
                     page--;
-                player.performCommand("coinflip "+page);
+                player.performCommand("coinflip " + page);
                 return;
             }
 

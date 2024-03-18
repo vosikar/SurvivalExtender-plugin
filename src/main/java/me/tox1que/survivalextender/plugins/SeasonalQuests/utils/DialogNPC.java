@@ -51,16 +51,15 @@ public class DialogNPC{
             return;
         }
         if(prerequisite != null && !profile.completedQuest(prerequisite)){
-            sendMessage(player, "Sakra. Než pomůžeš mně, musíš pomoct "+prerequisite.getName()+".");
+            sendMessage(player, "Sakra. Než pomůžeš mně, musíš pomoct " + prerequisite.getName() + ".");
             return;
         }
 
         PlayerInventory inventory = player.getInventory();
         List<ItemStack> toRemove = new ArrayList<>();
 
-        itemsLoop:
-        for(ItemStack is:requestedItems){
-            for(ItemStack inInventory:inventory.getContents()){
+        for(ItemStack is : requestedItems){
+            for(ItemStack inInventory : inventory.getContents()){
                 if(inInventory == null || inInventory.getType() == Material.AIR || inInventory.getItemMeta() == null)
                     continue;
                 if(inInventory.getType() != is.getType())
@@ -94,7 +93,7 @@ public class DialogNPC{
             return;
         }
 
-        for(ItemStack is:toRemove){
+        for(ItemStack is : toRemove){
             inventory.removeItem(is);
         }
 
@@ -105,6 +104,6 @@ public class DialogNPC{
     }
 
     public void sendMessage(Player player, String message){
-        player.sendMessage(String.format(ChatColor.of("#732626")+"%s §7» "+ChatColor.of("#993333")+"%s", name, message));
+        player.sendMessage(String.format(ChatColor.of("#732626") + "%s §7» " + ChatColor.of("#993333") + "%s", name, message));
     }
 }

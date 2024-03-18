@@ -52,7 +52,7 @@ public class SeasonalSQL{
 
             try{
                 con = SQLUtils.getNewConnection();
-                ps = con.prepareStatement("SELECT * FROM "+TABLE_NAME+" WHERE player=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = con.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE player=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, player.getName());
                 ps.execute();
                 result = ps.getResultSet();

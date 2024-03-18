@@ -27,7 +27,7 @@ public class CoinflipGame{
         this.creator = creator;
         this.money = money;
         this.gameId = gameId;
-        this.prize =  Double.parseDouble(String.format("%.2f", money*0.9*2));
+        this.prize = Double.parseDouble(String.format("%.2f", money * 0.9 * 2));
         this.dateCreated = new Date();
         this.challenger = null;
         this.winner = null;
@@ -47,10 +47,11 @@ public class CoinflipGame{
             winner = challenger;
         }
 
-        Inventory inventory = Bukkit.createInventory(null, 3*9, getInventoryTitle());
+        Inventory inventory = Bukkit.createInventory(null, 3 * 9, getInventoryTitle());
         taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(SurvivalExtender.getInstance(), new Runnable(){
-            int flips = Utils.randomNumber(12)+6;
+            int flips = Utils.randomNumber(12) + 6;
             boolean showCreator = false;
+
             @Override
             public void run(){
                 if(flips <= 0){
@@ -62,7 +63,7 @@ public class CoinflipGame{
                     String message = String.format("[sc]%s [pc]vyhrál Coinflip o [sc]$%s [pc]proti [sc]%s.", winner.getName(), Utils.formatNumber(prize), loser.getName());
                     Logger.Console.INFO(message);
                     Logger.Database.Coinflip.write(true, winner.getName(), loser.getName(), money, prize);
-                    for(Player player:Bukkit.getOnlinePlayers()){
+                    for(Player player : Bukkit.getOnlinePlayers()){
                         if(SurvivalExtender.getInstance().getCoinflipPlugin().getStats(player).hasAnnouncements()){
                             SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage(player, message);
                         }
@@ -133,6 +134,10 @@ public class CoinflipGame{
         return challenger;
     }
 
+    public void setChallenger(Player challenger){
+        this.challenger = challenger;
+    }
+
     public int getGameId(){
         return gameId;
     }
@@ -155,9 +160,5 @@ public class CoinflipGame{
 
     public OfflinePlayer getWinner(){
         return winner;
-    }
-
-    public void setChallenger(Player challenger){
-        this.challenger = challenger;
     }
 }

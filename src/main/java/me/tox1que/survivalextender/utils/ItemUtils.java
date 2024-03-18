@@ -2,8 +2,6 @@ package me.tox1que.survivalextender.utils;
 
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Modules.Kits.Kit;
-import me.saves.core.managers.ItemsManager;
-import me.tox1que.survivalextender.SurvivalExtender;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -34,7 +32,7 @@ public class ItemUtils{
     public static ItemStack getKitItem(String name){
         Kit kit = CMI.getInstance().getKitsManager().getKit(name, true);
         if(kit == null){
-            Logger.Console.SEVERE("Kit "+name+" is null! !");
+            Logger.Console.SEVERE("Kit " + name + " is null! !");
             return null;
         }
         return kit.getFirstNotNullItem();
@@ -43,9 +41,9 @@ public class ItemUtils{
     public static void giveKit(Player player, String name){
         Kit kit = CMI.getInstance().getKitsManager().getKit(name, true);
         if(kit == null){
-            Logger.Console.SEVERE("Kit "+name+" is null! !");
+            Logger.Console.SEVERE("Kit " + name + " is null! !");
         }else{
-            PlayerUtils.sendSystemMessage(player, "Obdržel jsi kit §b§o"+name+"§b.");
+            PlayerUtils.sendSystemMessage(player, "Obdržel jsi kit §b§o" + name + "§b.");
             CoreConnector.addItemsToInventoryOrSafe(player, kit.getItems().stream().filter(is -> is != null && is.getType() != Material.AIR).toArray(ItemStack[]::new));
         }
     }

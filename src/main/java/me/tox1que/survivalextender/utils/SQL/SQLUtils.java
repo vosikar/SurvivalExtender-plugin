@@ -46,7 +46,7 @@ public class SQLUtils{
             }
             connection = getNewConnection();
             String query = String.format(
-                    "DELETE FROM %s %s", table, (!condition.isEmpty() ? "WHERE "+condition : "")
+                    "DELETE FROM %s %s", table, (!condition.isEmpty() ? "WHERE " + condition : "")
             );
             ps = connection.prepareStatement(query);
             for(int i = 0; i < values.length; i++){
@@ -87,7 +87,7 @@ public class SQLUtils{
             );
             ps = connection.prepareStatement(query);
             int i = 1;
-            for(Object o:data.values()){
+            for(Object o : data.values()){
                 ps.setObject(i, o.toString());
                 i++;
             }
@@ -123,8 +123,8 @@ public class SQLUtils{
 
             Object[] dataValues = data.values().toArray(new Object[0]);
             for(int i = 0; i < dataValues.length; i++){
-                ps.setObject(i+1, dataValues[i]);
-                ps.setObject(i+dataValues.length+1, dataValues[i]);
+                ps.setObject(i + 1, dataValues[i]);
+                ps.setObject(i + dataValues.length + 1, dataValues[i]);
             }
             ps.execute();
             ps.close();
@@ -155,7 +155,7 @@ public class SQLUtils{
                 }
                 String query = "SELECT %s FROM %s %s".formatted(String.join(",", columns), table, !condition.toString().equals("WHERE ") ? condition : "");
                 if(!order.isEmpty())
-                    query += " ORDER BY "+order;
+                    query += " ORDER BY " + order;
                 if(limit > 0)
                     query += " LIMIT " + limit;
                 ps = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -180,11 +180,11 @@ public class SQLUtils{
                 connection = getNewConnection();
                 String valuesBuilder = getUpdateValues(keys, values);
                 String query = String.format(
-                        "UPDATE %s SET %s %s", table, valuesBuilder, (!condition.isEmpty() ? "WHERE "+condition : "")
+                        "UPDATE %s SET %s %s", table, valuesBuilder, (!condition.isEmpty() ? "WHERE " + condition : "")
                 );
                 ps = connection.prepareStatement(query);
                 for(int i = 0; i < values.length; i++){
-                    ps.setObject(i+1, values[i]);
+                    ps.setObject(i + 1, values[i]);
                 }
                 ps.execute();
                 ps.close();
@@ -202,7 +202,7 @@ public class SQLUtils{
             connection = getNewConnection();
             ps = connection.prepareStatement(query);
             int i = 1;
-            for(String s:parameters){
+            for(String s : parameters){
                 ps.setString(i, s);
                 i++;
             }
@@ -223,7 +223,7 @@ public class SQLUtils{
         int repeat = keys.length;
         for(int i = 0; i < repeat; i++){
             String key = keys[i];
-            valuesBuilder.append(i < repeat-1 ? key+"=?, " : key+"=?");
+            valuesBuilder.append(i < repeat - 1 ? key + "=?, " : key + "=?");
         }
         return valuesBuilder.toString();
     }
@@ -239,7 +239,7 @@ public class SQLUtils{
     private static String getValuesPlaceholder(int size){
         StringBuilder values = new StringBuilder();
         for(int i = 0; i < size; i++){
-            values.append(i < size-1 ? "?, " : "?");
+            values.append(i < size - 1 ? "?, " : "?");
         }
         return values.toString();
     }

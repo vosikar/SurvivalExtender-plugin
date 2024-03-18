@@ -1,7 +1,6 @@
 package me.tox1que.survivalextender.plugins.RecipePlugin.commands;
 
 import me.tox1que.survivalextender.plugins.RecipePlugin.RecipePlugin;
-import me.tox1que.survivalextender.utils.Logger;
 import me.tox1que.survivalextender.utils.Utils;
 import me.tox1que.survivalextender.utils.abstracts.BaseCommand;
 import me.tox1que.survivalextender.utils.enums.RecipeInventory;
@@ -12,7 +11,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.*;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 public class RecipeCommand extends BaseCommand{
@@ -57,13 +59,14 @@ public class RecipeCommand extends BaseCommand{
             try{
                 index = Integer.parseInt(args[1]);
                 if(index >= recipes.size())
-                    index = recipes.size()-1;
-            }catch(NumberFormatException ignored){}
+                    index = recipes.size() - 1;
+            }catch(NumberFormatException ignored){
+            }
         }
 
         if(!recipes.isEmpty()){
             Recipe recipe = recipes.get(index);
-            Inventory inv = createRecipeInventory(recipe, index+1, recipes.size());
+            Inventory inv = createRecipeInventory(recipe, index + 1, recipes.size());
             if(inv != null){
                 player.openInventory(inv);
             }else{
@@ -77,7 +80,7 @@ public class RecipeCommand extends BaseCommand{
     }
 
     private Inventory createRecipeInventory(Recipe recipe, int page, int max){
-        Inventory inv = Bukkit.createInventory(null, 6*9, "Recept - "+recipe.getResult().getType().toString().toLowerCase());
+        Inventory inv = Bukkit.createInventory(null, 6 * 9, "Recept - " + recipe.getResult().getType().toString().toLowerCase());
 
         List<Integer> recipeIndexes;
 
@@ -90,13 +93,13 @@ public class RecipeCommand extends BaseCommand{
                 for(int col = 0; col < shape[row].length(); col++){
                     char ingredientChar = shape[row].charAt(col);
                     ItemStack ingredient = ingredientMap.get(ingredientChar);
-                    inv.setItem(recipeIndexes.get(row*3+col), ingredient);
+                    inv.setItem(recipeIndexes.get(row * 3 + col), ingredient);
                 }
             }
         }else if(recipe instanceof ShapelessRecipe shapelessRecipe){
             recipeIndexes = RecipeInventory.Crafting.getIndexes();
             int index = 0;
-            for(ItemStack i: shapelessRecipe.getIngredientList()){
+            for(ItemStack i : shapelessRecipe.getIngredientList()){
                 inv.setItem(recipeIndexes.get(index), i);
                 index++;
             }
@@ -114,7 +117,7 @@ public class RecipeCommand extends BaseCommand{
                 furnace = Material.SMOKER;
             }
             inv.setItem(furnaceIndex, Utils.createItem(furnace, "",
-                    Arrays.asList("", "§7Doba pečení: "+(cookingRecipe.getCookingTime()/20)+" sekund", "§7Zkušenosti: "+cookingRecipe.getExperience())));
+                    Arrays.asList("", "§7Doba pečení: " + (cookingRecipe.getCookingTime() / 20) + " sekund", "§7Zkušenosti: " + cookingRecipe.getExperience())));
         }else if(recipe instanceof StonecuttingRecipe stonecuttingRecipe){
             recipeIndexes = RecipeInventory.StoneCutting.getIndexes();
             inv.setItem(recipeIndexes.get(0), stonecuttingRecipe.getInput());

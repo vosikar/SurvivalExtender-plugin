@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 public class CoreConnector{
 
     public static void addItemsToInventoryOrSafe(Player player, ItemStack... items){
-        Logger.Console.INFO("adding "+items.length+" items through Core to "+player.getName());
+        Logger.Console.INFO("adding " + items.length + " items through Core to " + player.getName());
         ItemsManager.addItemsToInventoryOrSafe(player, items);
     }
 }

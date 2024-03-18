@@ -1,7 +1,5 @@
 package me.tox1que.survivalextender.utils;
 
-import com.Zrips.CMI.CMI;
-import com.Zrips.CMI.Modules.Kits.Kit;
 import me.tox1que.survivalextender.SurvivalExtender;
 import me.tox1que.survivalextender.utils.enums.ServerType;
 import net.md_5.bungee.api.ChatColor;
@@ -148,7 +146,7 @@ public class Utils{
         int port = SurvivalExtender.getInstance().getServer().getPort();
         return switch(port){
             case 30029 -> ServerType.SURVIVAL_REWORK;
-            case 30003,30015 -> ServerType.SURVIVAL;
+            case 30003, 30015 -> ServerType.SURVIVAL;
             case 30001 -> ServerType.ONEBLOCK;
             default -> null;
         };
@@ -200,6 +198,7 @@ public class Utils{
 
     /**
      * Generates random number, 0 => result < bound
+     *
      * @param bound - result will be lower than this
      * @return new Random().nextInt(bound);
      */

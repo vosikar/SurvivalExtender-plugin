@@ -12,9 +12,9 @@ public class CoinflipSQL{
     public static void updateStats(CoinflipStats stats){
         Map<String, String> data = new HashMap<>();
         data.put("player", stats.getPlayer().getName());
-        data.put("wins", stats.getWins()+"");
-        data.put("losses", stats.getLosses()+"");
-        data.put("profit", stats.getProfit()+"");
+        data.put("wins", stats.getWins() + "");
+        data.put("losses", stats.getLosses() + "");
+        data.put("profit", stats.getProfit() + "");
         data.put("announcements", stats.hasAnnouncements() ? "1" : "0");
         SQLUtils.insertOrUpdate("coinflip_stats", data);
     }

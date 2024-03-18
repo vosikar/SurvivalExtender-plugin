@@ -5,8 +5,8 @@ import org.bukkit.Material;
 
 public class DyedMaterial{
 
-    private Material dye;
-    private ChatColor chatColor;
+    private final Material dye;
+    private final ChatColor chatColor;
     private Material banner;
     private Material wallBanner;
     private Material bed;

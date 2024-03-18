@@ -22,7 +22,7 @@ public class PlayerUtils{
         if(!player.isOnline() || player.getPlayer() == null)
             return "offline";
         Location location = player.getPlayer().getLocation();
-        return String.format("[%s] %.2f,%.2f,%.2f",location.getWorld() != null ? location.getWorld().getName() : "null",
+        return String.format("[%s] %.2f,%.2f,%.2f", location.getWorld() != null ? location.getWorld().getName() : "null",
                 location.getX(), location.getY(), location.getZ());
     }
 
@@ -31,6 +31,6 @@ public class PlayerUtils{
     }
 
     public static void sendSystemMessage(Player player, String message){
-        player.sendMessage("§3Systém §7» §b"+message);
+        player.sendMessage("§3Systém §7» §b" + message);
     }
 }
