@@ -2,8 +2,13 @@ package me.tox1que.survivalextender.utils;
 
 import me.tox1que.survivalextender.SurvivalExtender;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 public class PaymentUtils{
+
+    public static void addScore(Player player, int bonus, String comment){
+        CoreConnector.addScore(player, bonus, comment);
+    }
 
     public static void giveMoney(double amount, String comment, OfflinePlayer... players){
         for(OfflinePlayer player : players){
