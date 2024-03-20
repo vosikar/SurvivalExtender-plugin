@@ -43,7 +43,10 @@ public class SeasonalPlugin extends BasePlugin{
                         "Díky moc, díky tobě si mohu dneska zdřímnout.",
                         QuestType.SMUDLA,
                         new ItemStack[]{new ItemStack(Material.DIAMOND, 16), new ItemStack(Material.IRON_INGOT, 20), new ItemStack(Material.COAL, 32)},
-                        player -> PaymentUtils.giveMoney(18000, "spring quest Šmudla", player)
+                        player -> {
+                            PaymentUtils.giveMoney(18000, "spring quest Šmudla", player);
+                            PaymentUtils.addScore(player, 0, "spring quest Šmudla");
+                        }
                 )
         );
 
@@ -59,7 +62,10 @@ public class SeasonalPlugin extends BasePlugin{
                         "Díky moc! Ušetřil jsi mi spoustu času.",
                         QuestType.PROFA,
                         new ItemStack[]{new ItemStack(Material.GOLDEN_APPLE, 3), potion},
-                        player -> PaymentUtils.giveMoney(12000, "spring quest Prófa", player),
+                        player -> {
+                            PaymentUtils.giveMoney(12000, "spring quest Prófa", player);
+                            PaymentUtils.addScore(player, 0, "spring quest Prófa");
+                        },
                         QuestType.SMUDLA
                 )
         );
@@ -72,7 +78,10 @@ public class SeasonalPlugin extends BasePlugin{
                         "Děkuji ti za tvoje služby *pšík*. Tady máš svou odměnu.",
                         QuestType.KEJCHAL,
                         new ItemStack[]{new ItemStack(Material.FERN)},
-                        player -> PaymentUtils.giveMoney(5000, "spring quest Kejchal", player),
+                        player -> {
+                            PaymentUtils.giveMoney(5000, "spring quest Kejchal", player);
+                            PaymentUtils.addScore(player, 0, "spring quest Kejchal");
+                        },
                         QuestType.PROFA
                 )
         );
@@ -89,8 +98,7 @@ public class SeasonalPlugin extends BasePlugin{
                         "Tak dík. Trvalo ti to, ale moc dlouho, takže si odměnu nezasloužíš, haha.",
                         QuestType.REJPAL,
                         new ItemStack[]{new ItemStack(Material.BELL), potion},
-                        player -> {
-                        },
+                        player -> {},
                         QuestType.KEJCHAL
                 )
         );
@@ -103,7 +111,10 @@ public class SeasonalPlugin extends BasePlugin{
                         "Ty už jsi tady? Děkuji ti. Tady máš a drobný si nech.",
                         QuestType.STYDLIN,
                         new ItemStack[]{new ItemStack(Material.EGG, 2), new ItemStack(Material.MILK_BUCKET), new ItemStack(Material.WHEAT, 2)},
-                        player -> PaymentUtils.giveMoney(9000, "spring quest Stydlín", player),
+                        player -> {
+                            PaymentUtils.giveMoney(9000, "spring quest Stydlín", player);
+                            PaymentUtils.addScore(player, 0, "spring quest Stydlín");
+                        },
                         QuestType.REJPAL
                 )
         );
@@ -116,7 +127,10 @@ public class SeasonalPlugin extends BasePlugin{
                         "Díky, jsi můj zachránce! Tady máš vše, co u sebe mám.",
                         QuestType.STISTKO,
                         new ItemStack[]{new ItemStack(Material.RABBIT_FOOT)},
-                        player -> PaymentUtils.giveMoney(7000, "spring quest Štístko", player),
+                        player -> {
+                            PaymentUtils.giveMoney(7000, "spring quest Štístko", player);
+                            PaymentUtils.addScore(player, 0, "spring quest Štístko");
+                        },
                         QuestType.STYDLIN
                 )
         );
@@ -129,7 +143,10 @@ public class SeasonalPlugin extends BasePlugin{
                         "Díky moc za tyto suroviny. Jsem velice vděčný, že jsi mi je pomohl najít. Tady máš něco malého.",
                         QuestType.DRIMAL,
                         new ItemStack[]{new ItemStack(Material.MILK_BUCKET), new ItemStack(Material.COCOA_BEANS, 3)},
-                        player -> PaymentUtils.giveMoney(11000, "spring quest Dřímal", player),
+                        player -> {
+                            PaymentUtils.giveMoney(11000, "spring quest Dřímal", player);
+                            PaymentUtils.addScore(player, 0, "spring quest Dřímal");
+                        },
                         QuestType.STISTKO
                 )
         );
@@ -142,7 +159,10 @@ public class SeasonalPlugin extends BasePlugin{
                         "Gratuluji, otrávil jsi Sněhurku.",
                         QuestType.SNEHURKA,
                         new ItemStack[]{new ItemStack(Material.APPLE)},
-                        player -> ItemUtils.giveKit(player, "spring_otravene_jablko"),
+                        player -> {
+                            ItemUtils.giveKit(player, "spring_otravene_jablko");
+                            PaymentUtils.addScore(player, 0, "spring quest Sněhurka");
+                        },
                         QuestType.DRIMAL
                 )
         );
