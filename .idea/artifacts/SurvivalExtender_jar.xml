@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="SurvivalExtender:jar">
-    <output-path>A:/HRY/mc servers/1.17.1 server/plugins</output-path>
-    <root id="archive" name="SurvivalExtender.jar">
-      <element id="module-output" name="SurvivalExtender" />
-    </root>
-  </artifact>
-</component>
