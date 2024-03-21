@@ -8,6 +8,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockDropItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
@@ -58,13 +59,23 @@ public class MinerPickaxeHandlers implements Listener{
         if(e.isCancelled())
             return;
         Player player = e.getPlayer();
-        if(!player.isOp() && player.getName().equals("Borivoj0hniblesk"))
-            return;
         if(player.getInventory().getItemInMainHand().getItemMeta() == null)
             return;
         if(!player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("§lKopáčův krumpáč"))
             return;
         plugin.addToMinerInventory(player, e.getItems().stream().map(Item::getItemStack).toArray(ItemStack[]::new));
         e.setCancelled(true);
+    }
+
+    @EventHandler
+    public void minerPickaxeInventoryClick(InventoryClickEvent e){
+        if(!e.getView().getTitle().equals(plugin.getMinerInventoryName()))
+            return;
+        if(e.getCurrentItem() == null)
+            return;
+        if(e.getCurrentItem().getItemMeta() == null)
+            return;
+        if(e.getCurrentItem().getItemMeta().getDisplayName().contains("§lKopáčův krumpáč"))
+            e.setCancelled(true);
     }
 }
