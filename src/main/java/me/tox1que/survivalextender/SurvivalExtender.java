@@ -67,9 +67,7 @@ public final class SurvivalExtender extends JavaPlugin{
 
     private void loadManagers(){
         new RecipePlugin();
-        if(Utils.getServerType() == ServerType.SURVIVAL){
-            seasonalPlugin = new SeasonalPlugin();
-        }
+        seasonalPlugin = new SeasonalPlugin();
         if(Utils.getServerType() != ServerType.ONEBLOCK){
             new SpecialItemsPlugin();
         }
