@@ -54,35 +54,43 @@ public class CoinflipGame{
 
             @Override
             public void run(){
-                if(flips <= 0){
-                    if((creator == winner && showCreator) || (challenger == winner && !showCreator)){
-                        swapView(inventory, showCreator);
-                    }
-                    Bukkit.getScheduler().runTaskLater(SurvivalExtender.getInstance(), () -> updateInventories(flips, inventory), 60L);
-
-                    String message = String.format("[sc]%s [pc]vyhrál Coinflip o [sc]$%s [pc]proti [sc]%s.", winner.getName(), Utils.formatNumber(prize), loser.getName());
-                    Logger.Console.INFO(message);
-                    Logger.Database.Coinflip.write(true, winner.getName(), loser.getName(), money, prize);
-                    for(Player player : Bukkit.getOnlinePlayers()){
-                        if(SurvivalExtender.getInstance().getCoinflipPlugin().getStats(player).hasAnnouncements()){
-                            SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage(player, message);
+                try{
+                    if(flips <= 0){
+                        if((creator == winner && showCreator) || (challenger == winner && !showCreator)){
+                            swapView(inventory, showCreator);
                         }
-                    }
+                        Bukkit.getScheduler().runTaskLater(SurvivalExtender.getInstance(), () -> updateInventories(flips, inventory), 60L);
 
-                    PaymentUtils.giveMoney(prize, "coinflip win", winner);
-                    SurvivalExtender.getInstance().getCoinflipPlugin().getStats(winner).addWin(money);
-                    SurvivalExtender.getInstance().getCoinflipPlugin().getStats(loser).addLose(money);
-                    Bukkit.getScheduler().cancelTask(taskId);
-                    if(winner.isOnline() && winner.getPlayer() != null){
-                        winner.getPlayer().playSound(winner.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+                        String message = String.format("[sc]%s [pc]vyhrál Coinflip o [sc]$%s [pc]proti [sc]%s.", winner.getName(), Utils.formatNumber(prize), loser.getName());
+                        Logger.Console.INFO(SurvivalExtender.getInstance().getCoinflipPlugin().getFinalMessage(message));
+                        Logger.Database.Coinflip.write(true, winner.getName(), loser.getName(), money, prize);
+                        for(Player player : Bukkit.getOnlinePlayers()){
+                            if(SurvivalExtender.getInstance().getCoinflipPlugin().getStats(player).hasAnnouncements()){
+                                SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage(message, player);
+                            }
+                        }
+
+                        PaymentUtils.giveMoney(prize, "coinflip win", winner);
+                        SurvivalExtender.getInstance().getCoinflipPlugin().getStats(winner).addWin(money);
+                        SurvivalExtender.getInstance().getCoinflipPlugin().getStats(loser).addLose(money);
+                        Bukkit.getScheduler().cancelTask(taskId);
+                        if(PlayerUtils.isOnline(winner)){
+                            winner.getPlayer().playSound(winner.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+                        }
+                        SurvivalExtender.getInstance().getCoinflipPlugin().removeCoinflip(gameId);
+                        return;
                     }
-                    SurvivalExtender.getInstance().getCoinflipPlugin().removeCoinflip(gameId);
-                    return;
+                    swapView(inventory, showCreator);
+                    updateInventories(flips, inventory);
+                    flips--;
+                    showCreator = !showCreator;
+                }catch(Exception e){
+                    Bukkit.getScheduler().cancelTask(taskId);
+                    PaymentUtils.giveMoney(money, "coinflip refund - error", creator);
+                    PaymentUtils.giveMoney(money, "coinflip refund - error", challenger);
+                    SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage("Nepodařilo se spustit coinflip, byly ti navráceny peníze.", creator.getPlayer(), challenger.getPlayer());
+                    e.printStackTrace();
                 }
-                swapView(inventory, showCreator);
-                updateInventories(flips, inventory);
-                flips--;
-                showCreator = !showCreator;
             }
         }, 0L, 10L);
     }
@@ -117,13 +125,15 @@ public class CoinflipGame{
         if(winner != null)
             return;
 
+        this.challenger = creator;
         PaymentUtils.giveMoney(money, "coinflip refund", creator);
         if(remove)
             SurvivalExtender.getInstance().getCoinflipPlugin().removeCoinflip(gameId);
         if(creator.isOnline() && creator.getPlayer() != null){
-            SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage(creator.getPlayer(), String.format("Tvá hra byla zrušena a bylo ti navráceno $%s.", Utils.formatNumber(money)));
+            SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage(String.format("Tvá hra byla zrušena a bylo ti navráceno $%s.", Utils.formatNumber(money)), creator.getPlayer());
             creator.getPlayer().closeInventory();
         }
+        Bukkit.getScheduler().cancelTask(taskId);
     }
 
     public OfflinePlayer getCreator(){
