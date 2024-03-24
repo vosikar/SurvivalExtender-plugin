@@ -43,12 +43,16 @@ public abstract class BasePlugin{
         Bukkit.broadcastMessage(getFinalMessage("[sc]" + prefix + " §7» [pc]" + message));
     }
 
-    public void sendAlertMessage(Player player, String message){
-        player.sendMessage(getFinalMessage("§4" + prefix + " §7» §c" + message));
+    public void sendAlertMessage(String message, Player... players){
+        for(Player player:players){
+            player.sendMessage(getFinalMessage("§4" + prefix + " §7» §c" + message));
+        }
     }
 
-    public void sendMessage(Player player, String message){
-        player.sendMessage(getFinalMessage("[sc]" + prefix + " §7» [pc]" + message));
+    public void sendMessage(String message, Player... players){
+        for(Player player:players){
+            player.sendMessage(getFinalMessage("[sc]" + prefix + " §7» [pc]" + message));
+        }
     }
 
     public abstract void load();

@@ -25,7 +25,7 @@ public class CoinflipCommand extends BaseCommand{
         if(args.length <= 1){
             if(args.length > 0){
                 if(args[0].equalsIgnoreCase("oznameni") || args[0].equalsIgnoreCase("announcement")){
-                    plugin.sendMessage(player, plugin.getStats(player).toggleAnnouncements() + " sis oznámení z Coinflipů.");
+                    plugin.sendMessage(plugin.getStats(player).toggleAnnouncements() + " sis oznámení z Coinflipů.", player);
                     return false;
                 }
             }
@@ -43,19 +43,19 @@ public class CoinflipCommand extends BaseCommand{
             try{
                 int amount = Integer.parseInt(args[1]);
                 if(plugin.getGames().stream().filter(game -> game.getCreator().getName().equals(player.getName())).count() >= 5){
-                    plugin.sendMessage(player, "Nemůžeš vytvořit více než 5 her.");
+                    plugin.sendMessage("Nemůžeš vytvořit více než 5 her.", player);
                     return false;
                 }
                 if(amount < 1000){
-                    plugin.sendMessage(player, "Minimální vsazená částka je $1 000.");
+                    plugin.sendMessage("Minimální vsazená částka je $1 000.", player);
                     return false;
                 }
                 if(amount > 1_000_000){
-                    plugin.sendMessage(player, "Maximální vsazená částka je $1 000 000.");
+                    plugin.sendMessage("Maximální vsazená částka je $1 000 000.", player);
                     return false;
                 }
                 if(!PaymentUtils.hasMoney(player, amount)){
-                    plugin.sendMessage(player, "Nemáš dostatek financí.");
+                    plugin.sendMessage("Nemáš dostatek financí.", player);
                     return false;
                 }
                 plugin.createCoinflip(player, amount);

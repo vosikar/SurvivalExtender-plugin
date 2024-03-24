@@ -73,7 +73,7 @@ public class CoinflipPlugin extends BasePlugin implements Listener{
         CoinflipGame game = new CoinflipGame(player, amount, gameId);
         gameId++;
         games.add(game);
-        sendMessage(player, String.format("Založil jsi Coinflip za [sc]$%s[pc].", Utils.formatNumber(amount)));
+        sendMessage(String.format("Založil jsi Coinflip za [sc]$%s[pc].", Utils.formatNumber(amount)), player);
     }
 
     public void openOverview(Player player, int page){

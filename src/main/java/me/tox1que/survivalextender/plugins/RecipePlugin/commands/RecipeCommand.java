@@ -48,7 +48,7 @@ public class RecipeCommand extends BaseCommand{
 
         Material material = Material.matchMaterial(args[0].toUpperCase());
         if(material == null){
-            sendMessage(player, "Zadaný item neexistuje.");
+            sendMessage("Zadaný item neexistuje.", player);
             return false;
         }
         ItemStack item = new ItemStack(material);
@@ -70,10 +70,10 @@ public class RecipeCommand extends BaseCommand{
             if(inv != null){
                 player.openInventory(inv);
             }else{
-                sendMessage(player, "Pro recept tohoto typu ještě nebyla přidána podpora. Pokud si myslíš, že se jedná o chybu, kontaktuj AT.");
+                sendMessage("Pro recept tohoto typu ještě nebyla přidána podpora. Pokud si myslíš, že se jedná o chybu, kontaktuj AT.", player);
             }
         }else{
-            sendMessage(player, "Tento item nemá recept.");
+            sendMessage("Tento item nemá recept.", player);
         }
 
         return false;

@@ -51,8 +51,8 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter{
         }
     }
 
-    protected void sendMessage(Player player, String message){
-        plugin.sendMessage(player, message);
+    protected void sendMessage(String message, Player... players){
+        plugin.sendMessage(message, players);
     }
 
     @Override

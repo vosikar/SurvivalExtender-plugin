@@ -56,13 +56,13 @@ public class CoinflipListeners implements Listener{
                 return;
             }
             if(player.getName().equals(game.getCreator().getName()) || game.getChallenger() != null){
-                SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage(player, "Do této hry se nemůžeš připojit.");
+                SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage("Do této hry se nemůžeš připojit.", player);
                 return;
             }
             if(PaymentUtils.hasMoney(player, game.getMoney())){
                 game.rollWinner(player);
             }else{
-                SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage(player, "Nemáš dostatek financí.");
+                SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage("Nemáš dostatek financí.", player);
             }
         }
     }
