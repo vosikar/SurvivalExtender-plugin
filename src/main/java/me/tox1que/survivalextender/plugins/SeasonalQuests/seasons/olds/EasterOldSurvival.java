@@ -17,6 +17,7 @@ public class EasterOldSurvival extends BaseSeason{
     @Override
     public void load(){
         SurvivalExtender.getInstance().getCommand("pomlazka").setExecutor(new EasterOldsPomlazkaCommand());
+        SurvivalExtender.getInstance().getServer().getPluginManager().registerEvents(new EasterOldSurvivalListeners(), SurvivalExtender.getInstance());
         String finalDialog = "Děkuji za tvou ochotu, zde je něco na oplátku.";
 
         //Anička

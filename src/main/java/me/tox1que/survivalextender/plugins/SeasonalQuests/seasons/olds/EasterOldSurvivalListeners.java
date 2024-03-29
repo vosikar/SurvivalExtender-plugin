@@ -5,10 +5,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class SpringOldSurvivalListeners implements Listener{
+public class EasterOldSurvivalListeners implements Listener{
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
-//        SeasonalSQL.loadPlayerProfile(e.getPlayer(), "quests_spring");
+        SeasonalSQL.loadPlayerProfile(e.getPlayer(), "quests_easter");
     }
 }
