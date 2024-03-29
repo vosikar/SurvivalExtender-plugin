@@ -11,6 +11,8 @@ commands:
     description: Otevře coinflip
     aliases:
       - cf
+  pomlazka:
+    description: Vytvori pomlazku
 depend:
   - CMI
   - Vault

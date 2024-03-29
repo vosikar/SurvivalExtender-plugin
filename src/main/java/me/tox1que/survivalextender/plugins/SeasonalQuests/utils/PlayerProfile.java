@@ -15,9 +15,9 @@ public class PlayerProfile{
         this.completed = completed;
     }
 
-    public void completeQuest(QuestType questType){
+    public void completeQuest(QuestType questType, String tableName){
         completed.add(questType);
-        SeasonalSQL.completeQuest(player, questType);
+        SeasonalSQL.completeQuest(player, questType, tableName);
     }
 
     public boolean completedQuest(QuestType questType){

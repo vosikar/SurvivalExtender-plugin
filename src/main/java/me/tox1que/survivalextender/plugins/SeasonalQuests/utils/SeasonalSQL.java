@@ -17,6 +17,10 @@ public class SeasonalSQL{
     private final static String TABLE_NAME = "quests_spring";
 
     public static void completeQuest(Player player, QuestType type){
+        completeQuest(player, type, TABLE_NAME);
+    }
+
+    public static void completeQuest(Player player, QuestType type, String tableName){
         Bukkit.getScheduler().runTaskAsynchronously(SurvivalExtender.getInstance(), () -> {
             PreparedStatement ps = null;
             Connection con = null;
@@ -26,7 +30,7 @@ public class SeasonalSQL{
                 con = SQLUtils.getNewConnection();
                 String value = type.toString().toLowerCase();
                 ps = con.prepareStatement(
-                        String.format("INSERT INTO %s (`player`, `character`, `completed`) VALUES (?, '%s', 1) ON DUPLICATE KEY UPDATE `completed`=`completed`+1", TABLE_NAME, value),
+                        String.format("INSERT INTO %s (`player`, `character`) VALUES (?, '%s')", tableName, value),
                         ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE
                 );
                 ps.setString(1, player.getName());
@@ -44,7 +48,7 @@ public class SeasonalSQL{
         });
     }
 
-    public static void loadPlayerProfile(Player player){
+    public static void loadPlayerProfile(Player player, String tableName){
         Bukkit.getScheduler().runTaskAsynchronously(SurvivalExtender.getInstance(), () -> {
             PreparedStatement ps = null;
             Connection con = null;
@@ -52,7 +56,7 @@ public class SeasonalSQL{
 
             try{
                 con = SQLUtils.getNewConnection();
-                ps = con.prepareStatement("SELECT * FROM " + TABLE_NAME + " WHERE player=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+                ps = con.prepareStatement("SELECT * FROM " + tableName + " WHERE player=?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
                 ps.setString(1, player.getName());
                 ps.execute();
                 result = ps.getResultSet();

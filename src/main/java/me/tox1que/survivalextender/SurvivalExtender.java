@@ -67,12 +67,11 @@ public final class SurvivalExtender extends JavaPlugin{
 
     private void loadManagers(){
         new RecipePlugin();
+        new SpecialItemsPlugin();
         seasonalPlugin = new SeasonalPlugin();
         if(Utils.getServerType() != ServerType.ONEBLOCK){
-            new SpecialItemsPlugin();
+            coinflipPlugin = new CoinflipPlugin();
         }
-
-        coinflipPlugin = new CoinflipPlugin();
 
         plugins.forEach(BasePlugin::load);
     }

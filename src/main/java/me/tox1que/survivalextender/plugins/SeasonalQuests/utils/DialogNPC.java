@@ -21,12 +21,13 @@ public class DialogNPC{
     private final ItemStack[] requestedItems;
     private final PlayerAction completeAction;
     private final QuestType prerequisite;
+    private final String tableName;
 
-    public DialogNPC(String name, String dialog, String finalDialog, QuestType questType, ItemStack[] requestedItems, PlayerAction completeAction){
-        this(name, dialog, finalDialog, questType, requestedItems, completeAction, null);
+    public DialogNPC(String name, String dialog, String finalDialog, QuestType questType, ItemStack[] requestedItems, PlayerAction completeAction, String tableName){
+        this(name, dialog, finalDialog, questType, requestedItems, completeAction, null, tableName);
     }
 
-    public DialogNPC(String name, String dialog, String finalDialog, QuestType questType, ItemStack[] requestedItems, PlayerAction completeAction, QuestType prerequisite){
+    public DialogNPC(String name, String dialog, String finalDialog, QuestType questType, ItemStack[] requestedItems, PlayerAction completeAction, QuestType prerequisite, String tableName){
         this.name = name;
         this.dialog = dialog;
         this.finalDialog = finalDialog;
@@ -34,6 +35,7 @@ public class DialogNPC{
         this.requestedItems = requestedItems;
         this.completeAction = completeAction;
         this.prerequisite = prerequisite;
+        this.tableName = tableName;
     }
 
     public String getName(){
@@ -97,7 +99,7 @@ public class DialogNPC{
             inventory.removeItem(is);
         }
 
-        profile.completeQuest(questType);
+        profile.completeQuest(questType, tableName);
         SurvivalExtender.getInstance().getSeasonalPlugin().removeInteracted(player);
         sendMessage(player, finalDialog);
         completeAction.run(player);

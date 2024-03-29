@@ -30,8 +30,10 @@ public class SpecialItemsPlugin extends BasePlugin{
 
     @Override
     public void load(){
-        main.getServer().getPluginManager().registerEvents(new MinerPickaxeHandlers(this), main);
-        startCheckers();
+        if(Utils.getServerType() != ServerType.ONEBLOCK){
+            main.getServer().getPluginManager().registerEvents(new MinerPickaxeHandlers(this), main);
+            startCheckers();
+        }
     }
 
     public void addToMinerInventory(Player player, ItemStack... items){

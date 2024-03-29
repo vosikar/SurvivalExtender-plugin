@@ -1,39 +1,44 @@
 package me.tox1que.survivalextender.plugins.SeasonalQuests;
 
-import me.tox1que.survivalextender.plugins.SeasonalQuests.listeners.SpringListener;
+import me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.listeners.GlobalSeasonsListeners;
+import me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.news.EasterNewSurvival;
+import me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.ob.EasterOneBlock;
+import me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.olds.EasterOldSurvival;
+import me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.olds.SpringOldSurvival;
 import me.tox1que.survivalextender.plugins.SeasonalQuests.utils.DialogNPC;
 import me.tox1que.survivalextender.plugins.SeasonalQuests.utils.PlayerProfile;
-import me.tox1que.survivalextender.plugins.SeasonalQuests.utils.QuestType;
-import me.tox1que.survivalextender.utils.ItemUtils;
-import me.tox1que.survivalextender.utils.PaymentUtils;
+import me.tox1que.survivalextender.utils.Logger;
+import me.tox1que.survivalextender.utils.Utils;
 import me.tox1que.survivalextender.utils.abstracts.BasePlugin;
-import org.bukkit.Material;
+import me.tox1que.survivalextender.utils.enums.ServerType;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionData;
-import org.bukkit.potion.PotionType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class SeasonalPlugin extends BasePlugin{
 
     private final List<Player> interacted;
     private final Map<String, PlayerProfile> playerProfiles;
+    private final List<BaseSeason> seasons;
     private final List<DialogNPC> npcs;
 
     public SeasonalPlugin(){
         this.interacted = new ArrayList<>();
         this.playerProfiles = new HashMap<>();
+        this.seasons = new ArrayList<>();
         this.npcs = new ArrayList<>();
     }
 
     @Override
     public void load(){
-        main.getServer().getPluginManager().registerEvents(new SpringListener(), main);
+        main.getServer().getPluginManager().registerEvents(new GlobalSeasonsListeners(), main);
+
+        registerSeason(new SpringOldSurvival());
+        registerSeason(new EasterOldSurvival());
+        registerSeason(new EasterNewSurvival());
+        registerSeason(new EasterOneBlock());
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date today = new Date();
