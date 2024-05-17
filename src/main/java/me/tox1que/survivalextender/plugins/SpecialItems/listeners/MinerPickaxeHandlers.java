@@ -63,8 +63,13 @@ public class MinerPickaxeHandlers implements Listener{
             return;
         if(!player.getInventory().getItemInMainHand().getItemMeta().getDisplayName().contains("§lKopáčův krumpáč"))
             return;
-        plugin.addToMinerInventory(player, e.getItems().stream().map(Item::getItemStack).toArray(ItemStack[]::new));
-        e.setCancelled(true);
+
+        boolean added = plugin.addToMinerInventory(player, e.getItems().stream().map(Item::getItemStack).toArray(ItemStack[]::new));
+        if(added){
+            e.setCancelled(true);
+        }else{
+            plugin.sendMessage("Inventář tvého Kopáčova krumpáče je plný.");
+        }
     }
 
     @EventHandler

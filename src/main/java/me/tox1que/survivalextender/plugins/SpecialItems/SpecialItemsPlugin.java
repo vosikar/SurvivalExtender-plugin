@@ -36,10 +36,14 @@ public class SpecialItemsPlugin extends BasePlugin{
         }
     }
 
-    public void addToMinerInventory(Player player, ItemStack... items){
+    public boolean addToMinerInventory(Player player, ItemStack... items){
         Inventory inventory = getMinerInventory(player);
-        inventory.addItem(items);
-        updateMinerInventory(player, inventory);
+        boolean added = !inventory.addItem(items).isEmpty();
+        if(added){
+            updateMinerInventory(player, inventory);
+            return true;
+        }
+        return false;
     }
 
     public String getMinerInventoryName(){
