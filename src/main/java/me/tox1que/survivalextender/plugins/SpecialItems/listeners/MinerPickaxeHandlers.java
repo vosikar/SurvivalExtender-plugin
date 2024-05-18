@@ -68,7 +68,7 @@ public class MinerPickaxeHandlers implements Listener{
         if(added){
             e.setCancelled(true);
         }else{
-            plugin.sendMessage("Inventář tvého Kopáčova krumpáče je plný.");
+            plugin.sendMessage("Inventář tvého Kopáčova krumpáče je plný.", player);
         }
     }
 

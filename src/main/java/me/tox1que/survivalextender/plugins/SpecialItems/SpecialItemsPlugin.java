@@ -38,7 +38,7 @@ public class SpecialItemsPlugin extends BasePlugin{
 
     public boolean addToMinerInventory(Player player, ItemStack... items){
         Inventory inventory = getMinerInventory(player);
-        boolean added = !inventory.addItem(items).isEmpty();
+        boolean added = inventory.addItem(items).isEmpty();
         if(added){
             updateMinerInventory(player, inventory);
             return true;
