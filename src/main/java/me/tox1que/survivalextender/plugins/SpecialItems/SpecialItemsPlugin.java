@@ -37,7 +37,8 @@ public class SpecialItemsPlugin extends BasePlugin{
     }
 
     public boolean addToMinerInventory(Player player, ItemStack... items){
-        Inventory inventory = getMinerInventory(player);
+        Inventory inventory = Bukkit.createInventory(player, 27, MINER_INVENTORY_NAME);
+        inventory.setContents(getMinerInventory(player).getContents());
         boolean added = inventory.addItem(items).isEmpty();
         if(added){
             updateMinerInventory(player, inventory);
