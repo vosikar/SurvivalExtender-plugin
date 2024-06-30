@@ -30,7 +30,8 @@ public class Utils{
     private static final ChatColor primaryColor = main.getPrimaryColor();
     private static final ChatColor secondaryColor = main.getSecondaryColor();
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd. MM. yyyy HH:mm:ss");
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd. MM. yyyy");
+    private static final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd. MM. yyyy HH:mm:ss");
 
     public static void actionBarMessage(Player player, String message){
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
@@ -123,8 +124,12 @@ public class Utils{
         return String.format("%d:%02d", minutes, seconds);
     }
 
-    public static String getFormattedTime(Date date){
-        return dateFormat.format(date);
+    public static String getFormattedDate(Date date){
+        return getFormattedDate(date, false);
+    }
+
+    public static String getFormattedDate(Date date, boolean time){
+        return time ? dateTimeFormat.format(date) : dateFormat.format(date);
     }
 
     public static String getPluginMessage(String msg){

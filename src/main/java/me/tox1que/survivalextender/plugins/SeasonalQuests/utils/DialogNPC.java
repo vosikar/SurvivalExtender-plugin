@@ -2,6 +2,7 @@ package me.tox1que.survivalextender.plugins.SeasonalQuests.utils;
 
 import me.tox1que.survivalextender.SurvivalExtender;
 import me.tox1que.survivalextender.utils.PlayerAction;
+import me.tox1que.survivalextender.utils.Utils;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -10,18 +11,27 @@ import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.PotionMeta;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DialogNPC{
 
     private final String name;
-    private final String dialog;
-    private final String finalDialog;
-    private final QuestType questType;
-    private final ItemStack[] requestedItems;
-    private final PlayerAction completeAction;
-    private final QuestType prerequisite;
+    private String dialog;
+    private String finalDialog;
+    private QuestType questType;
+    private ItemStack[] requestedItems;
+    private PlayerAction completeAction;
+    private QuestType prerequisite;
+    private Date availableAfter = null;
     private final String tableName;
+    private String nameColor = "#732626";
+    private String chatColor = "#732626";
+
+    public DialogNPC(String name, String tableName){
+        this.name = name;
+        this.tableName = tableName;
+    }
 
     public DialogNPC(String name, String dialog, String finalDialog, QuestType questType, ItemStack[] requestedItems, PlayerAction completeAction, String tableName){
         this(name, dialog, finalDialog, questType, requestedItems, completeAction, null, tableName);
@@ -38,6 +48,55 @@ public class DialogNPC{
         this.tableName = tableName;
     }
 
+    /* Setters */
+
+    public DialogNPC setAvailableAfter(Date availableAfter){
+        this.availableAfter = availableAfter;
+        return this;
+    }
+
+    public DialogNPC setDialog(String dialog){
+        this.dialog = dialog;
+        return this;
+    }
+
+    public DialogNPC setFinalDialog(String finalDialog){
+        this.finalDialog = finalDialog;
+        return this;
+    }
+
+    public DialogNPC setQuestType(QuestType questType){
+        this.questType = questType;
+        return this;
+    }
+
+    public DialogNPC setRequestedItems(ItemStack[] requestedItems){
+        this.requestedItems = requestedItems;
+        return this;
+    }
+
+    public DialogNPC setCompleteAction(PlayerAction completeAction){
+        this.completeAction = completeAction;
+        return this;
+    }
+
+    public DialogNPC setPrerequisite(QuestType prerequisite){
+        this.prerequisite = prerequisite;
+        return this;
+    }
+
+    public DialogNPC setChatColor(String chatColor){
+        this.chatColor = chatColor;
+        return this;
+    }
+
+    public DialogNPC setNameColor(String nameColor){
+        this.nameColor = nameColor;
+        return this;
+    }
+
+    /* Setters end */
+
     public String getName(){
         return name;
     }
@@ -49,7 +108,11 @@ public class DialogNPC{
     public void interact(Player player){
         PlayerProfile profile = SurvivalExtender.getInstance().getSeasonalPlugin().getProfile(player);
         if(profile.completedQuest(questType)){
-            sendMessage(player, "Sice jsi odvedl dobrou práci, ale tvojí pomoc už nepotřebuji.");
+            sendMessage(player, "Slíbenou odměnu jsi již dostal, více nemám.");
+            return;
+        }
+        if(new Date().before(availableAfter)){
+            sendMessage(player, "Ke mně ještě nemůžeš, až "+Utils.getFormattedDate(availableAfter)+".");
             return;
         }
         if(prerequisite != null && !profile.completedQuest(prerequisite)){
@@ -61,6 +124,10 @@ public class DialogNPC{
         List<ItemStack> toRemove = new ArrayList<>();
 
         for(ItemStack is : requestedItems){
+            if(inventory.containsAtLeast(is, is.getAmount())){
+                toRemove.add(is);
+                continue;
+            }
             for(ItemStack inInventory : inventory.getContents()){
                 if(inInventory == null || inInventory.getType() == Material.AIR || inInventory.getItemMeta() == null)
                     continue;
@@ -106,6 +173,6 @@ public class DialogNPC{
     }
 
     public void sendMessage(Player player, String message){
-        player.sendMessage(String.format(ChatColor.of("#732626") + "%s §7» " + ChatColor.of("#993333") + "%s", name, message));
+        player.sendMessage(String.format("§l"+ChatColor.of(nameColor) + "%s §7» " + ChatColor.of(chatColor) + "%s", name, message));
     }
 }

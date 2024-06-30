@@ -1,10 +1,8 @@
 package me.tox1que.survivalextender.plugins.SeasonalQuests;
 
 import me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.listeners.GlobalSeasonsListeners;
-import me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.news.EasterNewSurvival;
-import me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.ob.EasterOneBlock;
-import me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.olds.EasterOldSurvival;
-import me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.olds.SpringOldSurvival;
+import me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.olds.SummerOldSurvival;
+import me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.olds.SummerOldSurvivalListeners;
 import me.tox1que.survivalextender.plugins.SeasonalQuests.utils.DialogNPC;
 import me.tox1que.survivalextender.plugins.SeasonalQuests.utils.PlayerProfile;
 import me.tox1que.survivalextender.utils.Logger;
@@ -35,10 +33,8 @@ public class SeasonalPlugin extends BasePlugin{
     public void load(){
         main.getServer().getPluginManager().registerEvents(new GlobalSeasonsListeners(), main);
 
-        registerSeason(new SpringOldSurvival());
-        registerSeason(new EasterOldSurvival());
-        registerSeason(new EasterNewSurvival());
-        registerSeason(new EasterOneBlock());
+        main.getServer().getPluginManager().registerEvents(new SummerOldSurvivalListeners(), main);
+        registerSeason(new SummerOldSurvival());
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date today = new Date();
@@ -69,6 +65,11 @@ public class SeasonalPlugin extends BasePlugin{
                 }
             }
         }
+    }
+
+    @Override
+    public void unload(){
+//        entities.forEach((name, seasonalEntity) -> seasonalEntity.getEntity().remove());
     }
 
     public void registerSeason(BaseSeason season){

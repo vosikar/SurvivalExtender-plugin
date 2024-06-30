@@ -31,7 +31,7 @@ public class SpecialItemsPlugin extends BasePlugin{
     @Override
     public void load(){
         if(Utils.getServerType() != ServerType.ONEBLOCK){
-            main.getServer().getPluginManager().registerEvents(new MinerPickaxeHandlers(this), main);
+//            main.getServer().getPluginManager().registerEvents(new MinerPickaxeHandlers(this), main);
             startCheckers();
         }
     }
@@ -64,7 +64,7 @@ public class SpecialItemsPlugin extends BasePlugin{
             startSpecialItemsChecker();
         }
         if(Utils.getServerType() != ServerType.ONEBLOCK){
-            startInventoryChecker();
+//            startInventoryChecker();
         }
     }
 

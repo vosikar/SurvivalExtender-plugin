@@ -2,22 +2,14 @@ package me.tox1que.survivalextender.plugins.SeasonalQuests.utils;
 
 public enum QuestType{
 
-    SMUDLA("Šmudla"),
-    PROFA("Prófa"),
-    KEJCHAL("Kejchal"),
-    REJPAL("Rejpal"),
-    STYDLIN("Stydlín"),
-    STISTKO("Štístko"),
-    DRIMAL("Dřímal"),
-    SNEHURKA("Sněhurka"),
-    ANICKA("Anička"),
-    SARKA("Šárka"),
-    ELISKA("Eliška"),
-    ZUZKA(),
-    MARKETA("Markéta"),
-    //oneblock
-    ANCA("Anča"),
-    TONDA("Tonda"),
+    BLAZE,
+    SQUID,
+    GLOWING_SQUID,
+    RABBIT("Králík"),
+    SLIME,
+    POLAR_BEAR("Lední medvěd"),
+    ENDERMAN,
+    SHULKER,
     ;
 
     private final String name;
@@ -32,7 +24,7 @@ public enum QuestType{
 
     public String getName(){
         if(name == null)
-            return name().charAt(0)+name().substring(1).toLowerCase();
+            return name().charAt(0)+name().substring(1).toLowerCase().replace("_", " ");
         return name;
     }
 }
