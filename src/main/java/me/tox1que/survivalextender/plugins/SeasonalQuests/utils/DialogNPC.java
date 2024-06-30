@@ -173,6 +173,6 @@ public class DialogNPC{
     }
 
     public void sendMessage(Player player, String message){
-        player.sendMessage(String.format("§l"+ChatColor.of(nameColor) + "%s §7» " + ChatColor.of(chatColor) + "%s", name, message));
+        player.sendMessage(String.format(ChatColor.of(nameColor) + "§l%s §7» " + ChatColor.of(chatColor) + "%s", name, message));
     }
 }
