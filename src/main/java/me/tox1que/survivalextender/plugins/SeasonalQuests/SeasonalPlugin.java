@@ -97,6 +97,8 @@ public class SeasonalPlugin extends BasePlugin{
 
     public DialogNPC getNPC(String name){
         for(DialogNPC npc : npcs){
+            if(name.contains("Squid") && !name.contains(" squid"))
+                return npc;
             if(name.toLowerCase().contains(npc.getName().toLowerCase()))
                 return npc;
         }
