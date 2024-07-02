@@ -30,6 +30,18 @@ public class SummerOldSurvival extends BaseSeason{
                     .setCompleteAction(player -> ItemUtils.giveKit(player, "summer2024_artefakt_ohne"))
         );
         plugin.addNPC(
+                new DialogNPC("Glowing squid", "quests_summer")
+                        .setDialog("Zdravím, artefakt světla dostaneš, pokud mi přineseš 32 Shroomlightu, 64 Glowstonu a 64 Lantern.")
+                        .setFinalDialog("Díky moc, tady máš artefakt světla.")
+                        .setQuestType(QuestType.GLOWING_SQUID)
+                        .setRequestedItems(new ItemStack[]{new ItemStack(Material.SHROOMLIGHT, 32), new ItemStack(Material.GLOWSTONE, 64),
+                                new ItemStack(Material.LANTERN, 64)})
+                        .setChatColor("#D1ED23")
+                        .setNameColor("#C3E104")
+                        .setAvailableAfter(new Date(2024-1900, Calendar.JULY, 15))
+                        .setCompleteAction(player -> ItemUtils.giveKit(player, "summer2024_artefakt_svetla"))
+        );
+        plugin.addNPC(
             new DialogNPC("Squid", "quests_summer")
                 .setDialog("Ahoj, artefakt vody ti dám, ale přines mi 16 Tube Coralů, 64 Dried kelp Blocků, 64 Sponge Blocků a 128 Prismarine Blocků. Pokud to dokážeš, artefakt ti předám.")
                 .setFinalDialog("Díky, tady máš svůj artefakt vody.")
@@ -40,18 +52,6 @@ public class SummerOldSurvival extends BaseSeason{
                 .setNameColor("#1A8BC4")
                 .setAvailableAfter(new Date(2024-1900, Calendar.JULY, 8))
                     .setCompleteAction(player -> ItemUtils.giveKit(player, "summer2024_artefakt_vody"))
-        );
-        plugin.addNPC(
-            new DialogNPC("Glowing squid", "quests_summer")
-                .setDialog("Zdravím, artefakt světla dostaneš, pokud mi přineseš 32 Shroomlightu, 64 Glowstonu a 64 Lantern.")
-                .setFinalDialog("Díky moc, tady máš artefakt světla.")
-                .setQuestType(QuestType.GLOWING_SQUID)
-                .setRequestedItems(new ItemStack[]{new ItemStack(Material.SHROOMLIGHT, 32), new ItemStack(Material.GLOWSTONE, 64),
-                    new ItemStack(Material.LANTERN, 64)})
-                .setChatColor("#D1ED23")
-                .setNameColor("#C3E104")
-                .setAvailableAfter(new Date(2024-1900, Calendar.JULY, 15))
-                    .setCompleteAction(player -> ItemUtils.giveKit(player, "summer2024_artefakt_svetla"))
         );
         plugin.addNPC(
             new DialogNPC("Králík", "quests_summer")
