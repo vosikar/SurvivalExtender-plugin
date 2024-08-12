@@ -1,5 +1,6 @@
 package me.tox1que.survivalextender;
 
+import me.tox1que.survivalextender.listeners.AnvilListener;
 import me.tox1que.survivalextender.listeners.EasterHandlers;
 import me.tox1que.survivalextender.listeners.EnchantHandles;
 import me.tox1que.survivalextender.listeners.SmithingTableHandlers;
@@ -53,6 +54,7 @@ public final class SurvivalExtender extends JavaPlugin{
 
         this.plugins = new ArrayList<>();
 
+        this.getServer().getPluginManager().registerEvents(new AnvilListener(), this);
         this.getServer().getPluginManager().registerEvents(new EasterHandlers(), this);
         this.getServer().getPluginManager().registerEvents(new EnchantHandles(), this);
         this.getServer().getPluginManager().registerEvents(new SmithingTableHandlers(), this);

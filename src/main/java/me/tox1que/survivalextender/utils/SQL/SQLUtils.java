@@ -14,10 +14,14 @@ public class SQLUtils{
     private static final String[] ALL = new String[]{"*"};
 
     public static Connection getNewConnection(){
+        YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(SurvivalExtender.getInstance().getDataFolder(), "database.yml"));
+        return getNewConnection(config.getString("database"));
+    }
+
+    public static Connection getNewConnection(String database){
         try{
             YamlConfiguration config = YamlConfiguration.loadConfiguration(new File(SurvivalExtender.getInstance().getDataFolder(), "database.yml"));
             String ip = config.getString("ip");
-            String database = config.getString("database");
             String user = config.getString("user");
             String password = config.getString("password");
             return DriverManager.getConnection("jdbc:mysql://" + ip + ":3306/" + database + "?autoReconnect=true&allowMultiQueries=true&useUnicode=yes&characterEncoding=UTF-8", user, password);

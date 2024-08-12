@@ -150,9 +150,9 @@ public class Utils{
     public static ServerType getServerType(){
         int port = SurvivalExtender.getInstance().getServer().getPort();
         return switch(port){
-            case 30029 -> ServerType.SURVIVAL_REWORK;
-            case 30003, 30015 -> ServerType.SURVIVAL;
-            case 30001 -> ServerType.ONEBLOCK;
+            case 30004 -> ServerType.SURVIVAL_REWORK;
+            case 30002, 30015 -> ServerType.SURVIVAL;
+            case 30003 -> ServerType.ONEBLOCK;
             default -> null;
         };
     }
