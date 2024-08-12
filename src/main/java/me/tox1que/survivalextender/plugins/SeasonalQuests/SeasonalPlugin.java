@@ -33,7 +33,6 @@ public class SeasonalPlugin extends BasePlugin{
     public void load(){
         main.getServer().getPluginManager().registerEvents(new GlobalSeasonsListeners(), main);
 
-        main.getServer().getPluginManager().registerEvents(new SummerOldSurvivalListeners(), main);
         registerSeason(new SummerOldSurvival());
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

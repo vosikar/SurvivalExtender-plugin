@@ -1,5 +1,6 @@
 package me.tox1que.survivalextender.plugins.SeasonalQuests.seasons.olds;
 
+import me.tox1que.survivalextender.SurvivalExtender;
 import me.tox1que.survivalextender.plugins.SeasonalQuests.BaseSeason;
 import me.tox1que.survivalextender.plugins.SeasonalQuests.Season;
 import me.tox1que.survivalextender.plugins.SeasonalQuests.utils.DialogNPC;
@@ -17,6 +18,7 @@ public class SummerOldSurvival extends BaseSeason{
 
     @Override
     public void load(){
+        SurvivalExtender.getInstance().getServer().getPluginManager().registerEvents(new SummerOldSurvivalListeners(), SurvivalExtender.getInstance());
         plugin.addNPC(
             new DialogNPC("Blaze", "quests_summer")
                 .setDialog("Zdravím tě, artefakt ohně ti klidně dám, ale potřeboval bych 32 Blaze Rodů, 64 Blaze Powderů, 128 Magma Blocků a 128 Nether Wart Blocků. Jakmile mi to doneseš, odměna tě nemine.")
