@@ -6,6 +6,7 @@ import me.tox1que.survivalextender.plugins.SeasonalQuests.Season;
 import me.tox1que.survivalextender.plugins.SeasonalQuests.utils.DialogNPC;
 import me.tox1que.survivalextender.plugins.SeasonalQuests.utils.QuestType;
 import me.tox1que.survivalextender.utils.ItemUtils;
+import me.tox1que.survivalextender.utils.Utils;
 import me.tox1que.survivalextender.utils.enums.ServerType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -95,7 +96,7 @@ public class SummerOldSurvival extends BaseSeason{
                 .setDialog("Ahoj, jestli chceš artefakt teleportace, přines mi 16 Ender Pearl, 32 End Crystalů, 64 Eye of Ender a 128 Obsidian Blocků.")
                 .setFinalDialog("Díky moc, tady máš artefakt teleportace.")
                 .setQuestType(QuestType.ENDERMAN)
-                .setRequestedItems(new ItemStack[]{new ItemStack(Material.ENDER_PEARL, 16), new ItemStack(Material.END_CRYSTAL, 32),
+                .setRequestedItems(new ItemStack[]{new ItemStack(Material.END_CRYSTAL, 32),
                     new ItemStack(Material.ENDER_EYE, 64), new ItemStack(Material.OBSIDIAN, 128)})
                 .setChatColor("#588EAC")
                 .setNameColor("#0684CA")
