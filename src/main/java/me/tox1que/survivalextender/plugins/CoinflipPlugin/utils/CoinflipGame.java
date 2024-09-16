@@ -74,10 +74,10 @@ public class CoinflipGame{
                         SurvivalExtender.getInstance().getCoinflipPlugin().getStats(winner).addWin(money);
                         SurvivalExtender.getInstance().getCoinflipPlugin().getStats(loser).addLose(money);
                         Bukkit.getScheduler().cancelTask(taskId);
+                        SurvivalExtender.getInstance().getCoinflipPlugin().removeCoinflip(gameId);
                         if(PlayerUtils.isOnline(winner)){
                             winner.getPlayer().playSound(winner.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
                         }
-                        SurvivalExtender.getInstance().getCoinflipPlugin().removeCoinflip(gameId);
                         return;
                     }
                     swapView(inventory, showCreator);
@@ -89,6 +89,7 @@ public class CoinflipGame{
                     PaymentUtils.giveMoney(money, "coinflip refund - error", creator);
                     PaymentUtils.giveMoney(money, "coinflip refund - error", challenger);
                     SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage("Nepodařilo se spustit coinflip, byly ti navráceny peníze.", creator.getPlayer(), challenger.getPlayer());
+                    SurvivalExtender.getInstance().getCoinflipPlugin().removeCoinflip(gameId);
                     e.printStackTrace();
                 }
             }
