@@ -12,6 +12,10 @@ public class StatsManager{
 
     public Map<String, PlayerStats> playerStats;
 
+    public StatsManager(){
+        this.playerStats = new HashMap<>();
+    }
+
     public int increaseStat(Player player, PlayerStatistic statistic){
         return increaseStat(player, statistic, 1);
     }
