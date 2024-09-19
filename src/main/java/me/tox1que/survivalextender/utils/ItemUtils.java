@@ -2,7 +2,7 @@ package me.tox1que.survivalextender.utils;
 
 import com.Zrips.CMI.CMI;
 import com.Zrips.CMI.Modules.Kits.Kit;
-import me.tox1que.survivalextender.SurvivalExtender;
+import me.tox1que.survivalextender.utils.connectors.CoreConnector;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

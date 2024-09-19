@@ -1,4 +1,4 @@
-package me.tox1que.survivalextender.utils;
+package me.tox1que.survivalextender.utils.Builder;
 
 public enum CustomColorNames{
     Black("000000"),

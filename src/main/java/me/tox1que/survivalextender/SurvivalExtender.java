@@ -1,15 +1,14 @@
 package me.tox1que.survivalextender;
 
-import me.tox1que.survivalextender.listeners.AnvilListener;
-import me.tox1que.survivalextender.listeners.EasterHandlers;
-import me.tox1que.survivalextender.listeners.EnchantHandles;
-import me.tox1que.survivalextender.listeners.SmithingTableHandlers;
+import me.tox1que.survivalextender.listeners.*;
+import me.tox1que.survivalextender.managers.stats.StatsManager;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.CoinflipPlugin;
 import me.tox1que.survivalextender.plugins.RecipePlugin.RecipePlugin;
 import me.tox1que.survivalextender.plugins.SeasonalQuests.SeasonalPlugin;
 import me.tox1que.survivalextender.plugins.SpecialItems.SpecialItemsPlugin;
 import me.tox1que.survivalextender.utils.Utils;
 import me.tox1que.survivalextender.utils.abstracts.BasePlugin;
+import me.tox1que.survivalextender.utils.connectors.PluginConnector;
 import me.tox1que.survivalextender.utils.enums.ServerType;
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
@@ -27,6 +26,8 @@ public final class SurvivalExtender extends JavaPlugin{
 
     private CoinflipPlugin coinflipPlugin;
     private SeasonalPlugin seasonalPlugin;
+
+    private StatsManager statsManager;
 
     private String prefix;
     private ChatColor primaryColor;
@@ -58,8 +59,11 @@ public final class SurvivalExtender extends JavaPlugin{
         this.getServer().getPluginManager().registerEvents(new EasterHandlers(), this);
         this.getServer().getPluginManager().registerEvents(new EnchantHandles(), this);
         this.getServer().getPluginManager().registerEvents(new SmithingTableHandlers(), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerJoinHandlers(), this);
 
         loadManagers();
+        this.statsManager = new StatsManager();
+        new PluginConnector();
     }
 
     @Override
@@ -111,13 +115,18 @@ public final class SurvivalExtender extends JavaPlugin{
     }
 
     /*
-        Plugin getters
+        Plugins & managers getters
      */
-    public SeasonalPlugin getSeasonalPlugin(){
-        return seasonalPlugin;
-    }
 
     public CoinflipPlugin getCoinflipPlugin(){
         return coinflipPlugin;
+    }
+
+    public StatsManager getStatsManager(){
+        return statsManager;
+    }
+
+    public SeasonalPlugin getSeasonalPlugin(){
+        return seasonalPlugin;
     }
 }

@@ -2,7 +2,6 @@ package me.tox1que.survivalextender.utils.Builder;
 
 import me.arcaniax.hdb.api.HeadDatabaseAPI;
 import me.tox1que.survivalextender.SurvivalExtender;
-import me.tox1que.survivalextender.utils.CustomChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

@@ -1,4 +1,4 @@
-package me.tox1que.survivalextender.utils;
+package me.tox1que.survivalextender.utils.Builder;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Color;

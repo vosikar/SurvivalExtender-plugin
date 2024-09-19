@@ -6,6 +6,7 @@ import me.tox1que.survivalextender.plugins.CoinflipPlugin.listeners.CoinflipList
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.utils.CoinflipGame;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.utils.CoinflipStats;
 import me.tox1que.survivalextender.utils.Builder.ItemBuilder;
+import me.tox1que.survivalextender.utils.connectors.CoreConnector;
 import me.tox1que.survivalextender.utils.Logger;
 import me.tox1que.survivalextender.utils.Utils;
 import me.tox1que.survivalextender.utils.abstracts.BasePlugin;
@@ -74,6 +75,12 @@ public class CoinflipPlugin extends BasePlugin implements Listener{
         gameId++;
         games.add(game);
         sendMessage(String.format("Založil jsi Coinflip za [sc]$%s[pc].", Utils.formatNumber(amount)), player);
+        if(amount >= 100_000){
+            CoreConnector.checkFinishMission(player, 235);
+        }
+        CoreConnector.progressPlayerMissionDataInt(player, 232, 1, 5);
+        CoreConnector.progressPlayerMissionDataInt(player, 233, 1, 15);
+        CoreConnector.progressPlayerMissionDataInt(player, 234, 1, 50);
     }
 
     public void openOverview(Player player, int page){

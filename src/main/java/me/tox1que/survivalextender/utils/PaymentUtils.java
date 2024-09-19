@@ -1,6 +1,7 @@
 package me.tox1que.survivalextender.utils;
 
 import me.tox1que.survivalextender.SurvivalExtender;
+import me.tox1que.survivalextender.utils.connectors.CoreConnector;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
