@@ -1,5 +1,6 @@
 package me.tox1que.survivalextender.utils.connectors;
 
+import me.tox1que.blockbreaking.events.PlayerBreakMineBlockEvent;
 import me.tox1que.challenges.customEvents.ChallengeEndEvent;
 import me.tox1que.survivalextender.SurvivalExtender;
 import me.tox1que.survivalextender.managers.stats.PlayerStatistic;
@@ -29,6 +30,20 @@ public class PluginConnector implements Listener{
                 CoreConnector.progressPlayerMissionDataInt(player, 230, 1, 50);
                 CoreConnector.progressPlayerMissionDataInt(player, 231, 1, 100);
             }
+        }
+    }
+
+    @EventHandler
+    public void onMineBlockMine(PlayerBreakMineBlockEvent e){
+        String key = e.getBlockType();
+        int missionId = switch(key){
+            case "easy" -> 237;
+            case "medium" -> 238;
+            case "hard" -> 239;
+            default -> 0;
+        };
+        if(missionId != 0){
+            CoreConnector.checkFinishMission(e.getPlayer(), missionId);
         }
     }
 }
