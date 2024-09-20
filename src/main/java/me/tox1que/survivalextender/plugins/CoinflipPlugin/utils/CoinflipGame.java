@@ -126,10 +126,16 @@ public class CoinflipGame{
         if(winner != null)
             return;
 
-        this.challenger = creator;
         PaymentUtils.giveMoney(money, "coinflip refund", creator);
         if(remove)
             SurvivalExtender.getInstance().getCoinflipPlugin().removeCoinflip(gameId);
+
+        if(challenger != null && challenger.isOnline() && challenger.getPlayer() != null){
+            if(challenger.isOnline() && challenger.getPlayer() != null){
+                SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage(String.format("Tvá hra byla zrušena a bylo ti navráceno $%s.", Utils.formatNumber(money)), challenger.getPlayer());
+                challenger.getPlayer().closeInventory();
+            }
+        }
         if(creator.isOnline() && creator.getPlayer() != null){
             SurvivalExtender.getInstance().getCoinflipPlugin().sendMessage(String.format("Tvá hra byla zrušena a bylo ti navráceno $%s.", Utils.formatNumber(money)), creator.getPlayer());
             creator.getPlayer().closeInventory();
