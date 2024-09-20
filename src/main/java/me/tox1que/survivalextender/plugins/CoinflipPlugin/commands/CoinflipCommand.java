@@ -7,6 +7,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
+
 public class CoinflipCommand extends BaseCommand{
 
     private final CoinflipPlugin plugin;
@@ -42,7 +44,7 @@ public class CoinflipCommand extends BaseCommand{
         if(args[0].equalsIgnoreCase("create")){
             try{
                 int amount = Integer.parseInt(args[1]);
-                if(plugin.getGames().stream().filter(game -> game.getCreator().getName().equals(player.getName())).count() >= 5){
+                if(plugin.getGames().stream().filter(game -> Objects.equals(game.getCreator().getName(), player.getName())).count() >= 5){
                     plugin.sendMessage("Nemůžeš vytvořit více než 5 her.", player);
                     return false;
                 }
