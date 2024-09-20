@@ -74,8 +74,8 @@ public class RecipeCommand extends BaseCommand{
                 sendMessage("Pro recept tohoto typu ještě nebyla přidána podpora. Pokud si myslíš, že se jedná o chybu, kontaktuj AT.", player);
             }
         }else{
-            CoreConnector.checkFinishMission(player, 240);
             sendMessage("Tento item nemá recept.", player);
+            CoreConnector.checkFinishMission(player, 240);
         }
 
         return false;
