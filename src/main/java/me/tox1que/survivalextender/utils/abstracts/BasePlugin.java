@@ -2,6 +2,7 @@ package me.tox1que.survivalextender.utils.abstracts;
 
 import me.tox1que.survivalextender.SurvivalExtender;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public abstract class BasePlugin{
@@ -49,9 +50,11 @@ public abstract class BasePlugin{
         }
     }
 
-    public void sendMessage(String message, Player... players){
-        for(Player player:players){
-            player.sendMessage(getFinalMessage("[sc]" + prefix + " §7» [pc]" + message));
+    public void sendMessage(String message, CommandSender... senders){
+        for(CommandSender sender:senders){
+            if(sender instanceof Player){
+                sender.sendMessage(getFinalMessage("[sc]" + prefix + " §7» [pc]" + message));
+            }
         }
     }
 

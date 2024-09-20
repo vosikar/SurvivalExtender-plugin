@@ -45,10 +45,9 @@ public abstract class BaseCommand implements CommandExecutor, TabCompleter{
     }
 
     protected void sendUsage(CommandSender sender){
-        sender.sendMessage(Utils.getPluginMessage("Špatné použití příkazu, příklady použití:"));
+        plugin.sendMessage("Špatné použití příkazu, příklady použití:", sender);
         for(String s : usages){
-            String message = plugin.getFinalMessage("[pc]/" + this.name + " " + s);
-            sender.sendMessage(message);
+            plugin.sendMessage("/" + this.name + " " + s, sender);
         }
     }
 
