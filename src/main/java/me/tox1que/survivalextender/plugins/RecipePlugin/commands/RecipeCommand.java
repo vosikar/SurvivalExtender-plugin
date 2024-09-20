@@ -3,6 +3,7 @@ package me.tox1que.survivalextender.plugins.RecipePlugin.commands;
 import me.tox1que.survivalextender.plugins.RecipePlugin.RecipePlugin;
 import me.tox1que.survivalextender.utils.Utils;
 import me.tox1que.survivalextender.utils.abstracts.BaseCommand;
+import me.tox1que.survivalextender.utils.connectors.CoreConnector;
 import me.tox1que.survivalextender.utils.enums.RecipeInventory;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -73,6 +74,7 @@ public class RecipeCommand extends BaseCommand{
                 sendMessage("Pro recept tohoto typu ještě nebyla přidána podpora. Pokud si myslíš, že se jedná o chybu, kontaktuj AT.", player);
             }
         }else{
+            CoreConnector.checkFinishMission(player, 240);
             sendMessage("Tento item nemá recept.", player);
         }
 
