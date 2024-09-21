@@ -1,5 +1,6 @@
 package me.tox1que.survivalextender.managers.stats;
 
+import me.tox1que.survivalextender.SurvivalExtender;
 import me.tox1que.survivalextender.utils.Logger;
 import me.tox1que.survivalextender.utils.SQL.SQLUtils;
 import org.bukkit.entity.Player;
@@ -14,6 +15,7 @@ public class StatsManager{
 
     public StatsManager(){
         this.playerStats = new HashMap<>();
+        SurvivalExtender.getInstance().getServer().getPluginManager().registerEvents(new StatsListener(), SurvivalExtender.getInstance());
     }
 
     public int increaseStat(Player player, PlayerStatistic statistic){
