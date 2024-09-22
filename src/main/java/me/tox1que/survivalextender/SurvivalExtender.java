@@ -1,6 +1,7 @@
 package me.tox1que.survivalextender;
 
 import me.tox1que.survivalextender.listeners.*;
+import me.tox1que.survivalextender.managers.QoL.QoLManager;
 import me.tox1que.survivalextender.managers.stats.StatsManager;
 import me.tox1que.survivalextender.plugins.CoinflipPlugin.CoinflipPlugin;
 import me.tox1que.survivalextender.plugins.RecipePlugin.RecipePlugin;
@@ -28,6 +29,7 @@ public final class SurvivalExtender extends JavaPlugin{
     private SeasonalPlugin seasonalPlugin;
 
     private StatsManager statsManager;
+    private QoLManager qolManager;
 
     private String prefix;
     private ChatColor primaryColor;
@@ -63,6 +65,7 @@ public final class SurvivalExtender extends JavaPlugin{
 
         loadManagers();
         this.statsManager = new StatsManager();
+        this.qolManager = new QoLManager();
         new PluginConnector();
     }
 
@@ -128,5 +131,9 @@ public final class SurvivalExtender extends JavaPlugin{
 
     public SeasonalPlugin getSeasonalPlugin(){
         return seasonalPlugin;
+    }
+
+    public QoLManager getQolManager(){
+        return qolManager;
     }
 }
