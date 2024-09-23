@@ -9,6 +9,6 @@ public class StatsListener implements Listener{
 
     @EventHandler
     public void onSpecialFishCatch(SpecialFishCatchEvent e){
-        SurvivalExtender.getInstance().getStatsManager().increaseStat(e.getPlayer(), PlayerStatistic.FISHES_CAUGHT);
+        SurvivalExtender.getInstance().getStatsManager().increaseStat(e.getPlayer(), PlayerStatistic.FISHES_CAUGHT, e.getAmount());
     }
 }
