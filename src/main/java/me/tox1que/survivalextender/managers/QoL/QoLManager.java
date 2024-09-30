@@ -15,7 +15,7 @@ public class QoLManager{
         Bukkit.getServer().getPluginManager().registerEvents(new QoLListeners(), SurvivalExtender.getInstance());
 
         this.mineWorldBossBar = Bukkit.createBossBar(
-            "Právě se nacházíš v MineWorldu, který každý pátek se restartuje",
+            "§6§lPrávě se nacházíš v MineWorldu, který se každý pátek restartuje",
             BarColor.RED,
             BarStyle.SOLID
         );
